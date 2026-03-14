@@ -300,7 +300,12 @@ static void Controller_HeartbeatCallback(TimerHandle_t timer)
         .dataLength = 0
     };
     
-    xQueueSendFromISR(s_ctrlCtx.eventQueue, &event, NULL);
+    /* BUGFIX: Software timer callbacks run in the timer service task context,
+     * NOT in ISR context. Must use xQueueSend(), NOT xQueueSendFromISR().
+     * Using FromISR APIs from task context is a common FreeRTOS programming error.
+     * See: https://www.freertos.org/RTOS-software-timer.html
+     */
+    xQueueSend(s_ctrlCtx.eventQueue, &event, pdMS_TO_TICKS(10));
 }
 
 /**

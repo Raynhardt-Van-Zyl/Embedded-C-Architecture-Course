@@ -295,8 +295,13 @@ static void NetworkEvent_Callback(const NetworkEvent_t *event, void *userData)
         case NET_EVENT_DATA_RECEIVED:
             ctrlEvent.type = CTRL_EVENT_NETWORK_DATA;
             ctrlEvent.source = event->connectionId;
-            ctrlEvent.dataLength = event->dataLength;
-            memcpy(ctrlEvent.data, event->data, event->dataLength);
+            /* BUGFIX: Bounds check to prevent buffer overflow.
+             * NETWORK_MAX_PACKET_SIZE (1500) > CONTROLLER_CMD_BUFFER_SIZE (64).
+             * Truncate if payload exceeds our buffer capacity. */
+            ctrlEvent.dataLength = (event->dataLength > CONTROLLER_CMD_BUFFER_SIZE) 
+                                   ? CONTROLLER_CMD_BUFFER_SIZE 
+                                   : event->dataLength;
+            memcpy(ctrlEvent.data, event->data, ctrlEvent.dataLength);
             break;
             
         case NET_EVENT_ERROR:
