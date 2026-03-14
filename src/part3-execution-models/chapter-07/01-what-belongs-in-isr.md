@@ -123,3 +123,11 @@ sequenceDiagram
 3. **RULE-ISR-03**: **Time Bounds:** The Worst-Case Execution Time (WCET) of any ISR MUST be profiled and proven to be strictly less than 20 microseconds at the nominal system clock speed.
 4. **RULE-ISR-04**: **Flag Clearing First:** Hardware interrupt flags MUST be cleared as early as possible within the ISR to prevent re-triggering the interrupt immediately upon exit.
 5. **RULE-ISR-05**: **Minimize Function Calls:** An ISR SHOULD NOT call external functions, except for inline functions or highly optimized buffer push/pop routines, to prevent excessive stack frame generation and branch penalties.
+
+---
+
+## 6. Reference Implementation
+
+See the complete, production-ready ISR-safe ring buffer and UART ISR implementation:
+- **Lock-Free SPSC Ring Buffer:** [`code/part3-execution-models/isr_patterns/isr_safe.h`](../../../code/part3-execution-models/isr_patterns/isr_safe.h) and [`code/part3-execution-models/isr_patterns/isr_safe.c`](../../../code/part3-execution-models/isr_patterns/isr_safe.c)
+- **Complete UART ISR Example:** [`code/part3-execution-models/isr_patterns/uart_isr_example.c`](../../../code/part3-execution-models/isr_patterns/uart_isr_example.c)

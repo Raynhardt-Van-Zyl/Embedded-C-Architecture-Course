@@ -138,3 +138,13 @@ void BadTask(void *pvParams) {
 3. **RULE-TPL-03**: **Finite Blocking:** Tasks SHALL NOT block indefinitely (`portMAX_DELAY`) on RTOS primitives. A finite timeout MUST be used to guarantee periodic execution of the task's housekeeping and watchdog check-in routines.
 4. **RULE-TPL-04**: **Supervisor Watchdog:** The physical hardware watchdog MUST be serviced by a single, high-priority Supervisor Task. Worker tasks MUST NOT pet the hardware watchdog directly; they must report their health to the Supervisor.
 5. **RULE-TPL-05**: **Non-Blocking Initialization:** The initialization phase of a task, executed prior to entering the infinite loop, SHALL NOT invoke blocking RTOS APIs (e.g., `vTaskDelay`, waiting on empty queues).
+
+---
+
+## 6. Reference Implementation
+
+See the complete, production-ready RTOS task templates and implementations:
+- **Task Template Header:** [`code/part3-execution-models/rtos_patterns/rtos_task_template.h`](../../../code/part3-execution-models/rtos_patterns/rtos_task_template.h)
+- **Task Template Implementation:** [`code/part3-execution-models/rtos_patterns/rtos_task_template.c`](../../../code/part3-execution-models/rtos_patterns/rtos_task_template.c)
+- **Thread-Safe Queue Wrapper:** [`code/part3-execution-models/rtos_patterns/safe_queue.h`](../../../code/part3-execution-models/rtos_patterns/safe_queue.h)
+- **Complete Network Task Example:** [`code/part7-workshops/rtos_device/task_network.c`](../../../code/part7-workshops/rtos_device/task_network.c)

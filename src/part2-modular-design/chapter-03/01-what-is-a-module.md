@@ -189,3 +189,11 @@ By strictly adhering to this definition of a module, we achieve massive architec
 4. **Opaque Pointers (PIMPL):** All module state must be encapsulated within a `struct` defined exclusively in the `.c` file. The `.h` file shall only expose an opaque pointer to this struct.
 5. **No Vendor Leaks:** No vendor-specific hardware headers (e.g., `stm32f4xx.h`, `nrf.h`) or RTOS headers (e.g., `FreeRTOS.h`) shall ever be included in a module's public `.h` file. They must be isolated within the `.c` file.
 6. **Default to Static:** Every variable and function defined in a `.c` file MUST be marked `static` (Internal Linkage) unless it is explicitly prototyped in the corresponding `.h` file.
+
+---
+
+## 6. Reference Implementation
+
+See the complete, production-ready module templates:
+- **Header Template:** [`code/part2-modular-design/module_pattern/module_template.h`](../../../code/part2-modular-design/module_pattern/module_template.h)
+- **Implementation Template:** [`code/part2-modular-design/module_pattern/module_template.c`](../../../code/part2-modular-design/module_pattern/module_template.c)
