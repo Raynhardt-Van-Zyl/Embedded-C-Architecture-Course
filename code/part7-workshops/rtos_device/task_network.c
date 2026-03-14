@@ -79,6 +79,19 @@ typedef struct {
 /** @brief Network task context instance */
 static NetworkContext_t s_netCtx = {0};
 
+/** 
+ * @brief Static storage pool for connection configs
+ * 
+ * BUGFIX: This prevents lifetime bugs when callers pass stack-allocated
+ * NetworkConfig_t to NetworkTask_Connect(). The config must remain valid
+ * until the network task processes the connect event.
+ * 
+ * Without this pool, the pointer passed via event.context would become
+ * invalid when the caller's stack frame is destroyed.
+ */
+static NetworkConfig_t s_configPool[NETWORK_MAX_CONNECTIONS];
+static uint8_t s_configPoolUsed[NETWORK_MAX_CONNECTIONS] = {0};
+
 /*============================================================================*/
 /*                              PRIVATE FUNCTIONS                             */
 /*============================================================================*/
@@ -491,12 +504,37 @@ NetworkError_t NetworkTask_Connect(const NetworkConfig_t *config, uint8_t *pConn
         return NET_ERR_MEMORY;
     }
     
+    /*
+     * BUGFIX: Copy config into static storage pool instead of storing raw pointer.
+     * 
+     * ARCHITECTURE RATIONALE:
+     * In RTOS message-passing, you must NEVER pass pointers to stack-allocated
+     * data across task boundaries. The caller's NetworkConfig_t might be on their
+     * stack frame. When their function returns, the stack is reclaimed and the
+     * pointer becomes invalid (dangling pointer). When the network task later
+     * dereferences event->context, it reads garbage memory.
+     * 
+     * PROPER PATTERN:
+     * Option A: Copy data into the event structure (if it fits)
+     * Option B: Use a static storage pool (this implementation)
+     * Option C: Use dynamic allocation with explicit ownership transfer
+     * 
+     * This implementation uses Option B - a static pool of NetworkConfig_t
+     * structures. Each connection slot has a corresponding config storage slot.
+     */
+    
+    /* Copy caller's config into our static storage pool */
+    memcpy(&s_configPool[slot], config, sizeof(NetworkConfig_t));
+    s_configPoolUsed[slot] = 1;
+    
     NetworkEvent_t event = {
         .type = NET_EVENT_CONNECT,
-        .context = (void *)config
+        .connectionId = (uint8_t)slot,
+        .context = &s_configPool[slot]  /* Safe: points to our static storage */
     };
     
     if (xQueueSend(s_netCtx.eventQueue, &event, pdMS_TO_TICKS(100)) != pdPASS) {
+        s_configPoolUsed[slot] = 0;  /* Rollback on failure */
         return NET_ERR_WOULD_BLOCK;
     }
     

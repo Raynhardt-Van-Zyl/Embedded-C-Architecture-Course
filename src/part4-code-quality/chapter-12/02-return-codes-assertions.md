@@ -3,7 +3,11 @@
 ## 1. The Explicit Nature of C Error Handling
 Unlike high-level languages (C++, Java, Python), the C language has no built-in exception handling mechanism (`try/catch`). When a function encounters an error, it cannot "throw" an exception to secretly unroll the stack and find a handler.
 
-In embedded systems, this lack of exceptions is actually a profound architectural strength. Exceptions hide control flow. They make it impossible to determine exactly how long a function will take to execute (destroying real-time determinism), and they require dynamic memory allocation (heap) to instantiate the exception objects.
+In embedded systems, this lack of exceptions is often an architectural strength. Exceptions introduce non-deterministic control flow that makes it difficult to guarantee real-time behavior. While C++ exceptions don't inherently require dynamic memory allocation in all implementations, they do introduce:
+- **Non-local control flow**: The path from `throw` to `catch` can be complex to analyze
+- **Stack unwinding overhead**: Can impact real-time determinism  
+- **Code size increase**: Exception handling tables consume ROM space
+- **Toolchain dependency**: Embedded C++ compilers often disable exceptions via `-fno-exceptions`
 
 In C, error handling is explicit. Every error must be manually checked, deliberately handled, or consciously propagated up the call stack. 
 
@@ -90,6 +94,14 @@ __attribute__((noreturn)) void system_assert_handler(
 
 // We use __builtin_return_address(0) to get the Link Register (LR) on ARM.
 // This tells us exactly which function called the macro.
+// 
+// CAVEAT: __builtin_return_address is compiler- and optimization-sensitive:
+// - Works reliably for non-inlined functions at -O0 and -O1
+// - At -O2 and above, function inlining may cause inaccurate results
+// - On ARM Cortex-M, the LR is stored in a register, but prologue/epilogue
+//   optimization can affect when it's available
+// - Always verify with your specific toolchain and optimization settings
+// - For production, consider storing both LR and PC from the stack frame
 #define ASSERT(condition) \
     do { \
         if (!(condition)) { \

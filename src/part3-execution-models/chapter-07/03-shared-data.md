@@ -143,5 +143,9 @@ void toggle_led(void) {
 
 1. **RULE-CON-01**: **Protect RMW Operations:** Any variable (larger than a single native machine word) that is written by an ISR and read by the main loop, OR modified by both, MUST be protected against Read-Modify-Write corruption.
 2. **RULE-CON-02**: **Short Critical Sections:** When using interrupt masking (`__disable_irq()`) to create a critical section, the section SHALL NOT contain loops, function calls, or blocking delays. It must execute in less than 20 clock cycles.
-3. **RULE-CON-03**: **Prefer Exclusive Access:** On architectures supporting it (Cortex-M3 and above), lock-free exclusive access instructions (`LDREX`/`STREX` via CMSIS intrinsics) SHOULD be used instead of global interrupt masking for simple counter increments and bit manipulations.
+3. **RULE-CON-03**: **Consider Exclusive Access for Single-Word Operations:** On architectures supporting it (Cortex-M3 and above), exclusive access instructions (`LDREX`/`STREX` via CMSIS intrinsics) MAY be used for simple single-word counter increments. However, **use with caution**:
+   - They only guarantee atomicity for a single 32-bit word
+   - They require a retry loop, which adds code complexity
+   - For most single-core embedded systems, brief interrupt masking (`__disable_irq()`) is often simpler and equally effective
+   - Prefer hardware atomic features (BSRR, bit-banding) or interrupt masking unless you have a specific need for lock-free algorithms
 4. **RULE-CON-04**: **Hardware Set/Clear Registers:** Modifying GPIO or peripheral states during runtime MUST utilize the hardware's atomic Set/Clear registers (e.g., `BSRR`) rather than bitwise RMW operations (`|=`, `&=`) on the data registers.
