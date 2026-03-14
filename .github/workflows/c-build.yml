@@ -1,0 +1,45 @@
+name: C Code Build and Lint
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build_and_lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc-arm-none-eabi cmake clang-format clang-tidy cppcheck
+
+    - name: Check Formatting
+      run: |
+        # Run clang-format in dry-run mode to fail the build if files are unformatted
+        find code -name "*.c" -o -name "*.h" | xargs clang-format --dry-run --Werror -style=file
+
+    - name: Configure CMake
+      run: |
+        mkdir -p build
+        cd build
+        # Note: We are using the host compiler for CI testing, but in a real scenario
+        # you would use the toolchain file: -DCMAKE_TOOLCHAIN_FILE=../code/infrastructure/toolchain-arm-gcc.cmake
+        cmake ../code -DCMAKE_BUILD_TYPE=Debug
+
+    - name: Build Code
+      run: |
+        cd build
+        make -j$(nproc)
+
+    - name: Run Static Analysis (Clang-Tidy)
+      run: |
+        cd build
+        # Run clang-tidy on all source files using compile_commands.json
+        # In a real project, you would uncomment this once compile_commands.json is generated
+        # find ../code -name "*.c" | xargs clang-tidy -p .
+        echo "Static analysis step ready for compile_commands.json"

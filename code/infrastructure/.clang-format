@@ -1,0 +1,104 @@
+---
+# ==============================================================================
+# .clang-format
+# ==============================================================================
+# This configuration enforces a rigorous, highly-readable formatting standard 
+# optimized for safety-critical embedded C software development.
+# It uses the LLVM style as a base but overrides several rules to comply with
+# MISRA-C principles and enhance maintainability, determinism, and code review
+# clarity.
+# ==============================================================================
+
+BasedOnStyle: LLVM
+Language: Cpp # Applies to C as well in clang-format
+Standard: c11
+
+# --- Line Length and Wrapping ---
+# Rationale: Modern monitors can comfortably handle 120 characters.
+# Preventing excessive line wraps reduces visual noise and keeps complex logical
+# conditions readable, which is crucial for verifying critical boolean logic.
+ColumnLimit: 120
+
+# --- Brace Wrapping (Exact Brace Wrapping) ---
+# Rationale: Allman-style bracing (braces on a new line) is strictly enforced 
+# across all structures, functions, and control flow blocks. 
+# This aligns visually, making missing braces immediately obvious. In safety-critical
+# code, missing braces around single-line 'if' statements is a severe vulnerability
+# (e.g., Apple's "goto fail" bug). MISRA-C Directive 4.14 requires robust 
+# formatting to prevent such structural misunderstandings.
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterCaseLabel:  true
+  AfterClass:      true
+  AfterControlStatement: Always # Enforces newline after if/for/while to catch missing braces
+  AfterEnum:       true
+  AfterFunction:   true
+  AfterNamespace:  true
+  AfterStruct:     true
+  AfterUnion:      true
+  AfterExternBlock: true
+  BeforeCatch:     true
+  BeforeElse:      true
+  IndentBraces:    false
+  SplitEmptyFunction: false
+  SplitEmptyRecord:   false
+  SplitEmptyNamespace: false
+
+# --- Pointer Alignment ---
+# Rationale: In C, the asterisk modifies the variable, not the type 
+# (e.g., int *p, q; implies p is a pointer, q is an int).
+# Aligning the pointer right (int *p) accurately reflects C's grammar and prevents
+# developers from mistakenly assuming multiple variables in a declaration are all pointers.
+# This prevents critical type-mismatch bugs.
+PointerAlignment: Right
+
+# --- Padding and Spacing (Explicit Padding) ---
+# Rationale: Explicit spacing inside parentheses and brackets provides visual breathing
+# room, reducing cognitive load when parsing dense arithmetic or bitwise operations
+# common in hardware register manipulation.
+SpaceAfterCStyleCast: true # Distinguishes cast operations from function calls
+SpacesInCStyleCastParentheses: false
+SpacesInParentheses: false # False prevents excessive spacing, we prefer localized spacing
+SpaceBeforeParens: ControlStatements # 'if (condition)' rather than 'if(condition)'
+SpaceBeforeAssignmentOperators: true
+
+# --- Alignment ---
+# Rationale: Aligning assignments, declarations, and macros improves readability for
+# hardware abstraction layers (HALs) and register definition files, where visual
+# symmetry immediately highlights anomalies or typos in bitmasks.
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+AlignConsecutiveMacros: true
+AlignEscapedNewlines: Right
+AlignOperands: Align # Aligns operands of multiline binary operations
+AlignTrailingComments: true
+
+# --- Indentation ---
+# Rationale: 4 spaces provide an optimal balance between visual depth and preventing
+# excessive shifting to the right. Tabs are strictly forbidden as they render
+# inconsistently across different editors and VCS diff tools, leading to confusion.
+IndentWidth: 4
+UseTab: Never
+TabWidth: 4
+ContinuationIndentWidth: 4
+
+# --- Control Flow ---
+# Rationale: Single-statement bodies must ALWAYS be enclosed in braces (MISRA C:2012 Rule 15.6).
+# While clang-tidy enforces this structurally, clang-format ensures the visual representation
+# accommodates braces even for short lines.
+AllowShortBlocksOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+
+# --- Macros ---
+# Rationale: Embedded C heavily relies on macros for hardware access. 
+# Keeping macros organized is critical.
+IndentPPDirectives: AfterHash
+
+# --- Sorting ---
+# Rationale: Sorting includes alphabetically prevents duplicate inclusions and 
+# establishes a predictable header inclusion order, mitigating hidden dependency issues.
+SortIncludes: true
+...

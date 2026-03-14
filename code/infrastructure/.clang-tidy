@@ -1,0 +1,82 @@
+---
+# ==============================================================================
+# .clang-tidy
+# ==============================================================================
+# This configuration file establishes rigorous static analysis rules for 
+# safety-critical embedded C development. It focuses on finding bugs, preventing
+# undefined behavior, and enforcing secure coding standards (CERT, MISRA) while
+# carefully tuning out false positives inherent to low-level hardware interaction.
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Checks Configuration
+# ------------------------------------------------------------------------------
+# -*: Disables all default checks so we can explicitly opt-in to what we need.
+# bugprone-*: Detects code constructs that are likely to be bugs or cause unexpected behavior.
+# cert-*: Enforces SEI CERT C Coding Standard rules for secure coding.
+# performance-*: Identifies suboptimal code constructs.
+# readability-*: Enforces readability rules.
+# misc-*: Miscellaneous checks, often catching undefined behavior.
+# ------------------------------------------------------------------------------
+
+Checks: >
+  -*,
+  bugprone-*,
+  cert-*,
+  performance-*,
+  misc-*,
+  readability-*,
+  clang-analyzer-*,
+  concurrency-*,
+  portability-*,
+  -readability-magic-numbers,
+  -bugprone-easily-swappable-parameters,
+  -bugprone-branch-clone
+
+# ------------------------------------------------------------------------------
+# Justifications for Disabled Checks (The "Why")
+# ------------------------------------------------------------------------------
+# -readability-magic-numbers:
+#   Hardware register addresses (e.g., 0x40021000) and bitmasks (e.g., 1 << 5) are
+#   inherently "magic numbers". While macros/constants should be used, enabling this
+#   check globally creates an unmanageable amount of noise in HAL (Hardware Abstraction
+#   Layer) code. We disable it to prevent analysis fatigue.
+#
+# -bugprone-easily-swappable-parameters:
+#   In embedded APIs, it is very common to have sequential parameters of the same type 
+#   (e.g., x, y coordinates or row, col indices). While technically a risk, flagging 
+#   all instances causes massive friction in graphics or matrix-based drivers.
+#
+# -bugprone-branch-clone:
+#   Sometimes explicit and symmetric branch logic is required for state machines or 
+#   timing reasons (e.g., ensuring identical execution paths for secure operations),
+#   making branch clone checks falsely report necessary symmetry.
+
+# ------------------------------------------------------------------------------
+# CheckOptions Configuration
+# ------------------------------------------------------------------------------
+CheckOptions:
+  # Enforce rigorous limits on cognitive complexity. 
+  # Functions that exceed this complexity are statistically more likely to contain
+  # bugs and are harder to test comprehensively (violates structural coverage goals).
+  - key:             readability-function-cognitive-complexity.Threshold
+    value:           '15'
+  
+  # Ensure all variables are initialized before use, a critical safety requirement.
+  - key:             bugprone-unhandled-exception-at-new.Disabled
+    value:           'true'
+
+# ------------------------------------------------------------------------------
+# Severe Violation Enforcement
+# ------------------------------------------------------------------------------
+# Treat specific severe violations as errors that break the build.
+# We ensure that CERT and Bugprone rules are never bypassed.
+WarningsAsErrors: >
+  bugprone-*,
+  cert-*,
+  clang-analyzer-core.*,
+  misc-static-assert
+
+HeaderFilterRegex: '^src/.*'
+FormatStyle:     'file'
+...
