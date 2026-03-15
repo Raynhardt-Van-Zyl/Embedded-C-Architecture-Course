@@ -136,23 +136,34 @@
     
     /* Store previous interrupt state for nesting support */
     #if (ISR_ENABLE_NESTING == 1U)
-        extern volatile uint32_t g_criticalNestingLevel;
+        extern volatile uint32_t g_criticalNestingDepth;
+        extern volatile uint32_t g_savedPrimask;
+
+        /*
+         * State transitions:
+         * - First enter: save PRIMASK, disable IRQs, depth 0 -> 1
+         * - Nested enter: depth increments while IRQs remain disabled
+         * - Nested exit: depth decrements, IRQ state unchanged
+         * - Final exit: depth 1 -> 0, restore saved PRIMASK
+         */
         
         #define ISR_CRITICAL_ENTER()                                              \
             do {                                                                   \
                 uint32_t _primask = __get_PRIMASK();                              \
                 __disable_irq();                                                   \
-                if (g_criticalNestingLevel == 0U) {                                \
-                    g_criticalNestingLevel = _primask;                             \
+                if (g_criticalNestingDepth == 0U) {                                 \
+                    g_savedPrimask = _primask;                                      \
                 }                                                                  \
-                g_criticalNestingLevel++;                                          \
+                g_criticalNestingDepth++;                                          \
             } while (0)
             
         #define ISR_CRITICAL_EXIT()                                               \
             do {                                                                   \
-                g_criticalNestingLevel--;                                          \
-                if (g_criticalNestingLevel == 0U) {                                \
-                    __set_PRIMASK(g_criticalNestingLevel);                         \
+                if (g_criticalNestingDepth > 0U) {                                 \
+                    g_criticalNestingDepth--;                                      \
+                    if (g_criticalNestingDepth == 0U) {                            \
+                        __set_PRIMASK(g_savedPrimask);                             \
+                    }                                                              \
                 }                                                                  \
             } while (0)
     #else
@@ -162,18 +173,20 @@
     
 #else
     /* Generic fallback - implement for your platform */
-    extern volatile uint32_t g_criticalNestingLevel;
+    extern volatile uint32_t g_criticalNestingDepth;
     
     #define ISR_CRITICAL_ENTER()                                              \
         do {                                                                   \
             /* TODO: Implement platform-specific interrupt disable */          \
-            g_criticalNestingLevel++;                                          \
+            g_criticalNestingDepth++;                                          \
         } while (0)
         
     #define ISR_CRITICAL_EXIT()                                               \
         do {                                                                   \
-            g_criticalNestingLevel--;                                          \
-            if (g_criticalNestingLevel == 0U) {                                \
+            if (g_criticalNestingDepth > 0U) {                                 \
+                g_criticalNestingDepth--;                                      \
+            }                                                                  \
+            if (g_criticalNestingDepth == 0U) {                                \
                 /* TODO: Implement platform-specific interrupt enable */       \
             }                                                                  \
         } while (0)

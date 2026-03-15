@@ -1,4 +1,35 @@
-# Chapter 19: Architectural Archetypes Workshop
+# Chapter 19 — Example Architecture Patterns
+## Who This Chapter Is For
+
+- Embedded C engineers implementing or reviewing production firmware architecture
+- Technical leads and architects defining team-wide standards
+
+## Prerequisites
+
+- Familiarity with C syntax and embedded build/debug workflows
+- Completion of prior chapter topics in this curriculum (recommended)
+
+## Learning Objectives
+
+- Explain the core architectural principles covered in this chapter
+- Apply the chapter rules to structure module boundaries and dependencies
+- Evaluate existing code for architectural risks related to this chapter
+
+## Key Terms
+
+- Architecture boundary
+- Module contract
+- Dependency direction
+
+## Practical Checkpoint
+
+- Review one existing module and document 2 improvements based on this chapter's guidance
+- Refactor one API or dependency edge to align with the chapter standards
+
+## What to Read Next
+
+- Continue with the next section in this chapter, then proceed to the next chapter in `src/SUMMARY.md`.
+
 
 Welcome to **Chapter 19: Architectural Archetypes Workshop**. This section provides a hands-on exploration of the foundational architectures used in modern Embedded C systems. Instead of theoretical ideals, we will focus on practical, production-ready patterns that solve real-world constraints in memory, timing, and scalability.
 

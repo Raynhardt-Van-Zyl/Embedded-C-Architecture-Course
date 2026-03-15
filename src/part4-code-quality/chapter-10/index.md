@@ -1,4 +1,35 @@
-# Chapter 10: Establishing a Coding Standard
+# Chapter 10 — Coding Standards for Embedded C
+## Who This Chapter Is For
+
+- Embedded C engineers implementing or reviewing production firmware architecture
+- Technical leads and architects defining team-wide standards
+
+## Prerequisites
+
+- Familiarity with C syntax and embedded build/debug workflows
+- Completion of prior chapter topics in this curriculum (recommended)
+
+## Learning Objectives
+
+- Explain the core architectural principles covered in this chapter
+- Apply the chapter rules to structure module boundaries and dependencies
+- Evaluate existing code for architectural risks related to this chapter
+
+## Key Terms
+
+- Architecture boundary
+- Module contract
+- Dependency direction
+
+## Practical Checkpoint
+
+- Review one existing module and document 2 improvements based on this chapter's guidance
+- Refactor one API or dependency edge to align with the chapter standards
+
+## What to Read Next
+
+- Continue with the next section in this chapter, then proceed to the next chapter in `src/SUMMARY.md`.
+
 
 Welcome to Chapter 10: Establishing a Coding Standard. In embedded systems development, the difference between a prototype and a robust, production-ready device often boils down to how strictly the codebase is governed by rules. Without a coding standard, even the best-designed architecture can devolve into an unmaintainable "Big Ball of Mud."
 
