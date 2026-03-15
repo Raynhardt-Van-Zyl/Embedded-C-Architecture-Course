@@ -1,9 +1,9 @@
 /**
- * @file hal_adc.c
+ * @file Haladc.c
  * @brief Implementation of the ADC Hardware Abstraction Layer.
  */
 
-#include "hal_adc.h"
+#include "Haladc.h"
 #include <stddef.h>
 
 #define MAX_ADC_INSTANCES 3
@@ -78,7 +78,7 @@ bool HalAdc_StartDma(HalAdcHandle handle, uint32_t* buffer, uint32_t length) {
     /**
      * ARCHITECTURE DECISION: DMA Integration
      * This function assumes the DMA stream/channel associated with this ADC
-     * has already been configured via the HAL_DMA API. We simply tell the ADC
+     * has already been configured via the HalDMA API. We simply tell the ADC
      * to issue DMA requests upon conversion completion.
      */
     /* TODO: Set DMA enable bit in ADC registers */

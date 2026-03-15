@@ -1,5 +1,5 @@
 /**
- * @file hal_adc.h
+ * @file Haladc.h
  * @brief Hardware Abstraction Layer for ADC (Analog to Digital Converter).
  *
  * @details
@@ -9,8 +9,8 @@
  * modes configurable via strongly-typed structs to prevent invalid combinations.
  */
 
-#ifndef HAL_ADC_H
-#define HAL_ADC_H
+#ifndef HalADC_H
+#define HalADC_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -20,16 +20,16 @@ typedef struct HalAdc_s* HalAdcHandle;
 
 /** @brief ADC resolution. */
 typedef enum {
-    HAL_ADC_RES_8BIT,
-    HAL_ADC_RES_10BIT,
-    HAL_ADC_RES_12BIT,
-    HAL_ADC_RES_16BIT
+    HalADC_RES_8BIT,
+    HalADC_RES_10BIT,
+    HalADC_RES_12BIT,
+    HalADC_RES_16BIT
 } HalAdcResolution_t;
 
 /** @brief ADC alignment. */
 typedef enum {
-    HAL_ADC_ALIGN_RIGHT,
-    HAL_ADC_ALIGN_LEFT
+    HalADC_ALIGN_RIGHT,
+    HalADC_ALIGN_LEFT
 } HalAdcAlign_t;
 
 /** @brief ADC configuration structure. */
@@ -114,4 +114,4 @@ bool HalAdc_StartDma(HalAdcHandle handle, uint32_t* buffer, uint32_t length);
  */
 void HalAdc_DeInit(HalAdcHandle handle);
 
-#endif /* HAL_ADC_H */
+#endif /* HalADC_H */

@@ -1,9 +1,9 @@
 /**
- * @file hal_timer.c
+ * @file Haltimer.c
  * @brief Implementation of the Timer Hardware Abstraction Layer.
  */
 
-#include "hal_timer.h"
+#include "Haltimer.h"
 #include <stddef.h>
 
 #define MAX_TIMERS 14

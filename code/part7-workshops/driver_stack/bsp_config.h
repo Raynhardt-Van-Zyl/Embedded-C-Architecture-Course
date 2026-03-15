@@ -44,7 +44,7 @@ extern "C" {
 /*                              INCLUDES                                      */
 /*============================================================================*/
 
-#include "hal_layer.h"
+#include "Hallayer.h"
 
 /*============================================================================*/
 /*                              BOARD IDENTIFICATION                          */
@@ -108,22 +108,22 @@ typedef enum {
 } BSP_LED_e;
 
 /** @brief LED 1 GPIO configuration */
-#define BSP_LED_1_PORT              HAL_GPIO_PORT_D
+#define BSP_LED_1_PORT              HalGPIO_PORT_D
 #define BSP_LED_1_PIN               (12U)
 #define BSP_LED_1_ACTIVE_HIGH       (1U)
 
 /** @brief LED 2 GPIO configuration */
-#define BSP_LED_2_PORT              HAL_GPIO_PORT_D
+#define BSP_LED_2_PORT              HalGPIO_PORT_D
 #define BSP_LED_2_PIN               (13U)
 #define BSP_LED_2_ACTIVE_HIGH       (1U)
 
 /** @brief LED 3 GPIO configuration */
-#define BSP_LED_3_PORT              HAL_GPIO_PORT_D
+#define BSP_LED_3_PORT              HalGPIO_PORT_D
 #define BSP_LED_3_PIN               (14U)
 #define BSP_LED_3_ACTIVE_HIGH       (1U)
 
 /** @brief LED 4 GPIO configuration */
-#define BSP_LED_4_PORT              HAL_GPIO_PORT_D
+#define BSP_LED_4_PORT              HalGPIO_PORT_D
 #define BSP_LED_4_PIN               (15U)
 #define BSP_LED_4_ACTIVE_HIGH       (1U)
 
@@ -141,7 +141,7 @@ typedef enum {
 } BSP_Button_e;
 
 /** @brief User button GPIO configuration */
-#define BSP_BUTTON_1_PORT           HAL_GPIO_PORT_A
+#define BSP_BUTTON_1_PORT           HalGPIO_PORT_A
 #define BSP_BUTTON_1_PIN            (0U)
 #define BSP_BUTTON_1_ACTIVE_HIGH    (1U)
 
@@ -162,20 +162,20 @@ typedef enum {
 /** @brief Debug UART configuration */
 #define BSP_UART_DEBUG_INSTANCE     (2U)
 #define BSP_UART_DEBUG_BAUDRATE     (115200U)
-#define BSP_UART_DEBUG_TX_PORT      HAL_GPIO_PORT_D
+#define BSP_UART_DEBUG_TX_PORT      HalGPIO_PORT_D
 #define BSP_UART_DEBUG_TX_PIN       (8U)
 #define BSP_UART_DEBUG_TX_AF        (7U)
-#define BSP_UART_DEBUG_RX_PORT      HAL_GPIO_PORT_D
+#define BSP_UART_DEBUG_RX_PORT      HalGPIO_PORT_D
 #define BSP_UART_DEBUG_RX_PIN       (9U)
 #define BSP_UART_DEBUG_RX_AF        (7U)
 
 /** @brief Sensor UART configuration */
 #define BSP_UART_SENSOR_INSTANCE    (3U)
 #define BSP_UART_SENSOR_BAUDRATE    (9600U)
-#define BSP_UART_SENSOR_TX_PORT     HAL_GPIO_PORT_D
+#define BSP_UART_SENSOR_TX_PORT     HalGPIO_PORT_D
 #define BSP_UART_SENSOR_TX_PIN      (8U)
 #define BSP_UART_SENSOR_TX_AF       (7U)
-#define BSP_UART_SENSOR_RX_PORT     HAL_GPIO_PORT_D
+#define BSP_UART_SENSOR_RX_PORT     HalGPIO_PORT_D
 #define BSP_UART_SENSOR_RX_PIN      (9U)
 #define BSP_UART_SENSOR_RX_AF       (7U)
 
@@ -196,13 +196,13 @@ typedef enum {
 /** @brief SPI Flash configuration */
 #define BSP_SPI_FLASH_INSTANCE      (1U)
 #define BSP_SPI_FLASH_CLOCK_SPEED   (21000000U)
-#define BSP_SPI_FLASH_CS_PORT       HAL_GPIO_PORT_A
+#define BSP_SPI_FLASH_CS_PORT       HalGPIO_PORT_A
 #define BSP_SPI_FLASH_CS_PIN        (4U)
-#define BSP_SPI_FLASH_SCK_PORT      HAL_GPIO_PORT_A
+#define BSP_SPI_FLASH_SCK_PORT      HalGPIO_PORT_A
 #define BSP_SPI_FLASH_SCK_PIN       (5U)
-#define BSP_SPI_FLASH_MISO_PORT     HAL_GPIO_PORT_A
+#define BSP_SPI_FLASH_MISO_PORT     HalGPIO_PORT_A
 #define BSP_SPI_FLASH_MISO_PIN      (6U)
-#define BSP_SPI_FLASH_MOSI_PORT     HAL_GPIO_PORT_A
+#define BSP_SPI_FLASH_MOSI_PORT     HalGPIO_PORT_A
 #define BSP_SPI_FLASH_MOSI_PIN      (7U)
 
 /*============================================================================*/
@@ -223,17 +223,17 @@ typedef enum {
 /** @brief I2C Sensor bus configuration */
 #define BSP_I2C_SENSOR_INSTANCE     (1U)
 #define BSP_I2C_SENSOR_CLOCK_SPEED  (100000U)
-#define BSP_I2C_SENSOR_SCL_PORT     HAL_GPIO_PORT_B
+#define BSP_I2C_SENSOR_SCL_PORT     HalGPIO_PORT_B
 #define BSP_I2C_SENSOR_SCL_PIN      (6U)
-#define BSP_I2C_SENSOR_SDA_PORT     HAL_GPIO_PORT_B
+#define BSP_I2C_SENSOR_SDA_PORT     HalGPIO_PORT_B
 #define BSP_I2C_SENSOR_SDA_PIN      (7U)
 
 /** @brief I2C EEPROM bus configuration */
 #define BSP_I2C_EEPROM_INSTANCE     (2U)
 #define BSP_I2C_EEPROM_CLOCK_SPEED  (400000U)
-#define BSP_I2C_EEPROM_SCL_PORT     HAL_GPIO_PORT_B
+#define BSP_I2C_EEPROM_SCL_PORT     HalGPIO_PORT_B
 #define BSP_I2C_EEPROM_SCL_PIN      (10U)
-#define BSP_I2C_EEPROM_SDA_PORT     HAL_GPIO_PORT_B
+#define BSP_I2C_EEPROM_SDA_PORT     HalGPIO_PORT_B
 #define BSP_I2C_EEPROM_SDA_PIN      (11U)
 
 /*============================================================================*/
@@ -273,7 +273,7 @@ typedef enum {
 /** @brief ADC configuration */
 #define BSP_ADC_INSTANCE            (1U)
 #define BSP_ADC_BATTERY_CHANNEL     (1U)
-#define BSP_ADC_BATTERY_PORT        HAL_GPIO_PORT_A
+#define BSP_ADC_BATTERY_PORT        HalGPIO_PORT_A
 #define BSP_ADC_BATTERY_PIN         (1U)
 
 /*============================================================================*/
@@ -339,7 +339,7 @@ typedef enum {
  * @brief LED configuration structure
  */
 typedef struct {
-    HAL_GPIO_Port_e port;           /**< GPIO port */
+    HalGPIO_Port_e port;           /**< GPIO port */
     uint8_t         pin;            /**< Pin number */
     bool            activeHigh;     /**< Active high if true */
 } BSP_LED_Config_t;
@@ -348,7 +348,7 @@ typedef struct {
  * @brief Button configuration structure
  */
 typedef struct {
-    HAL_GPIO_Port_e port;           /**< GPIO port */
+    HalGPIO_Port_e port;           /**< GPIO port */
     uint8_t         pin;            /**< Pin number */
     bool            activeHigh;     /**< Active high if true */
 } BSP_Button_Config_t;
@@ -358,10 +358,10 @@ typedef struct {
  */
 typedef struct {
     uint8_t         instance;       /**< UART instance */
-    HAL_GPIO_Port_e txPort;         /**< TX pin port */
+    HalGPIO_Port_e txPort;         /**< TX pin port */
     uint8_t         txPin;          /**< TX pin number */
     uint8_t         txAlternate;    /**< TX alternate function */
-    HAL_GPIO_Port_e rxPort;         /**< RX pin port */
+    HalGPIO_Port_e rxPort;         /**< RX pin port */
     uint8_t         rxPin;          /**< RX pin number */
     uint8_t         rxAlternate;    /**< RX alternate function */
 } BSP_UART_Config_t;
@@ -374,11 +374,11 @@ typedef struct {
  * @brief Initialize the BSP
  * 
  * @details Initializes all board peripherals and GPIO configurations.
- * Must be called after HAL_Init().
+ * Must be called after HalInit().
  * 
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e BSP_Init(void);
+HalStatus_e BSP_Init(void);
 
 /**
  * @brief Deinitialize the BSP

@@ -1,9 +1,9 @@
 /**
- * @file hal_rtc.c
+ * @file Halrtc.c
  * @brief Implementation of the RTC Hardware Abstraction Layer.
  */
 
-#include "hal_rtc.h"
+#include "Halrtc.h"
 #include <stddef.h>
 
 #define MAX_RTC_INSTANCES 1

@@ -1,5 +1,5 @@
 /**
- * @file hal_rtc.h
+ * @file Halrtc.h
  * @brief Hardware Abstraction Layer for Real-Time Clock (RTC).
  *
  * @details
@@ -9,8 +9,8 @@
  * BCD registers (Year/Month/Day) happens transparently.
  */
 
-#ifndef HAL_RTC_H
-#define HAL_RTC_H
+#ifndef HalRTC_H
+#define HalRTC_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -20,8 +20,8 @@ typedef struct HalRtc_s* HalRtcHandle;
 
 /** @brief RTC Clock Source. */
 typedef enum {
-    HAL_RTC_CLK_LSI, /**< Low-Speed Internal (Inaccurate, no external crystal needed) */
-    HAL_RTC_CLK_LSE  /**< Low-Speed External (Accurate 32.768kHz crystal) */
+    HalRTC_CLK_LSI, /**< Low-Speed Internal (Inaccurate, no external crystal needed) */
+    HalRTC_CLK_LSE  /**< Low-Speed External (Accurate 32.768kHz crystal) */
 } HalRtcClockSource_t;
 
 /** @brief RTC Alarm Callback function. */
@@ -93,4 +93,4 @@ void HalRtc_WriteBackupRegister(HalRtcHandle handle, uint8_t reg_index, uint32_t
  */
 void HalRtc_DeInit(HalRtcHandle handle);
 
-#endif /* HAL_RTC_H */
+#endif /* HalRTC_H */

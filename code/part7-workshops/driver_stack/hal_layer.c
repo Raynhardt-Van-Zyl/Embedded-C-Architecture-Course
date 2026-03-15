@@ -1,5 +1,5 @@
 /**
- * @file hal_layer.c
+ * @file Hallayer.c
  * @brief Hardware Abstraction Layer Implementation
  * 
  * @details Implements the HAL functions that abstract the underlying
@@ -16,7 +16,7 @@
  * @date 2024
  */
 
-#include "hal_layer.h"
+#include "Hallayer.h"
 #include <string.h>
 
 /*============================================================================*/
@@ -24,10 +24,10 @@
 /*============================================================================*/
 
 /** @brief Memory barrier for register access synchronization */
-#define HAL_MEMORY_BARRIER()        __asm__ volatile("" ::: "memory")
+#define HalMEMORY_BARRIER()        __asm__ volatile("" ::: "memory")
 
 /** @brief Maximum delay loop iterations per millisecond */
-#define HAL_DELAY_ITERATIONS_PER_MS (1000U)
+#define HalDELAY_ITERATIONS_PER_MS (1000U)
 
 /*============================================================================*/
 /*                              PRIVATE TYPES                                 */
@@ -41,18 +41,18 @@ typedef struct {
     uint32_t            tickCount;          /**< Millisecond tick counter */
     bool                initialized;        /**< Initialization flag */
     
-    HAL_GPIO_Callback_t     gpioCallbacks[HAL_GPIO_PORT_COUNT][HAL_GPIO_PINS_PER_PORT];
-    HAL_UART_RxCallback_t   uartRxCallbacks[HAL_UART_INSTANCE_COUNT];
-    HAL_UART_TxCallback_t   uartTxCallbacks[HAL_UART_INSTANCE_COUNT];
-    HAL_TIMER_Callback_t    timerCallbacks[HAL_TIMER_INSTANCE_COUNT];
-} HAL_State_t;
+    HalGPIO_Callback_t     gpioCallbacks[HalGPIO_PORT_COUNT][HalGPIO_PINS_PER_PORT];
+    HalUART_RxCallback_t   uartRxCallbacks[HalUART_INSTANCE_COUNT];
+    HalUART_TxCallback_t   uartTxCallbacks[HalUART_INSTANCE_COUNT];
+    HalTIMER_Callback_t    timerCallbacks[HalTIMER_INSTANCE_COUNT];
+} HalState_t;
 
 /*============================================================================*/
 /*                              PRIVATE VARIABLES                             */
 /*============================================================================*/
 
 /** @brief HAL state instance */
-static HAL_State_t s_halState = {0};
+static HalState_t s_halState = {0};
 
 /*============================================================================*/
 /*                              GPIO HAL FUNCTIONS                            */
@@ -62,19 +62,19 @@ static HAL_State_t s_halState = {0};
  * @brief Initialize a GPIO pin
  * 
  * @param config GPIO pin configuration
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_GPIO_Init(const HAL_GPIO_Config_t *config)
+HalStatus_e HalGPIO_Init(const HalGPIO_Config_t *config)
 {
     if (config == NULL) {
-        return HAL_INVALID_PARAM;
+        return HalINVALID_PARAM;
     }
     
-    if (config->port >= HAL_GPIO_PORT_COUNT || config->pin >= HAL_GPIO_PINS_PER_PORT) {
-        return HAL_INVALID_PARAM;
+    if (config->port >= HalGPIO_PORT_COUNT || config->pin >= HalGPIO_PINS_PER_PORT) {
+        return HalINVALID_PARAM;
     }
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
@@ -82,15 +82,15 @@ HAL_Status_e HAL_GPIO_Init(const HAL_GPIO_Config_t *config)
  * 
  * @param port GPIO port
  * @param pin  Pin number
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_GPIO_Deinit(HAL_GPIO_Port_e port, uint8_t pin)
+HalStatus_e HalGPIO_Deinit(HalGPIO_Port_e port, uint8_t pin)
 {
-    if (port >= HAL_GPIO_PORT_COUNT || pin >= HAL_GPIO_PINS_PER_PORT) {
-        return HAL_INVALID_PARAM;
+    if (port >= HalGPIO_PORT_COUNT || pin >= HalGPIO_PINS_PER_PORT) {
+        return HalINVALID_PARAM;
     }
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
@@ -100,9 +100,9 @@ HAL_Status_e HAL_GPIO_Deinit(HAL_GPIO_Port_e port, uint8_t pin)
  * @param pin  Pin number
  * @return true if pin is high, false if low
  */
-bool HAL_GPIO_Read(HAL_GPIO_Port_e port, uint8_t pin)
+bool HalGPIO_Read(HalGPIO_Port_e port, uint8_t pin)
 {
-    if (port >= HAL_GPIO_PORT_COUNT || pin >= HAL_GPIO_PINS_PER_PORT) {
+    if (port >= HalGPIO_PORT_COUNT || pin >= HalGPIO_PINS_PER_PORT) {
         return false;
     }
     
@@ -115,15 +115,15 @@ bool HAL_GPIO_Read(HAL_GPIO_Port_e port, uint8_t pin)
  * @param port  GPIO port
  * @param pin   Pin number
  * @param state true for high, false for low
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_GPIO_Write(HAL_GPIO_Port_e port, uint8_t pin, bool state)
+HalStatus_e HalGPIO_Write(HalGPIO_Port_e port, uint8_t pin, bool state)
 {
-    if (port >= HAL_GPIO_PORT_COUNT || pin >= HAL_GPIO_PINS_PER_PORT) {
-        return HAL_INVALID_PARAM;
+    if (port >= HalGPIO_PORT_COUNT || pin >= HalGPIO_PINS_PER_PORT) {
+        return HalINVALID_PARAM;
     }
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
@@ -131,15 +131,15 @@ HAL_Status_e HAL_GPIO_Write(HAL_GPIO_Port_e port, uint8_t pin, bool state)
  * 
  * @param port GPIO port
  * @param pin  Pin number
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_GPIO_Toggle(HAL_GPIO_Port_e port, uint8_t pin)
+HalStatus_e HalGPIO_Toggle(HalGPIO_Port_e port, uint8_t pin)
 {
-    if (port >= HAL_GPIO_PORT_COUNT || pin >= HAL_GPIO_PINS_PER_PORT) {
-        return HAL_INVALID_PARAM;
+    if (port >= HalGPIO_PORT_COUNT || pin >= HalGPIO_PINS_PER_PORT) {
+        return HalINVALID_PARAM;
     }
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
@@ -148,17 +148,17 @@ HAL_Status_e HAL_GPIO_Toggle(HAL_GPIO_Port_e port, uint8_t pin)
  * @param port     GPIO port
  * @param pin      Pin number
  * @param callback Callback function
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_GPIO_RegisterCallback(HAL_GPIO_Port_e port, uint8_t pin, 
-                                        HAL_GPIO_Callback_t callback)
+HalStatus_e HalGPIO_RegisterCallback(HalGPIO_Port_e port, uint8_t pin, 
+                                        HalGPIO_Callback_t callback)
 {
-    if (port >= HAL_GPIO_PORT_COUNT || pin >= HAL_GPIO_PINS_PER_PORT) {
-        return HAL_INVALID_PARAM;
+    if (port >= HalGPIO_PORT_COUNT || pin >= HalGPIO_PINS_PER_PORT) {
+        return HalINVALID_PARAM;
     }
     
     s_halState.gpioCallbacks[port][pin] = callback;
-    return HAL_OK;
+    return HalOK;
 }
 
 /*============================================================================*/
@@ -169,30 +169,30 @@ HAL_Status_e HAL_GPIO_RegisterCallback(HAL_GPIO_Port_e port, uint8_t pin,
  * @brief Initialize UART peripheral
  * 
  * @param config UART configuration
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_UART_Init(const HAL_UART_Config_t *config)
+HalStatus_e HalUART_Init(const HalUART_Config_t *config)
 {
-    if (config == NULL || config->instance >= HAL_UART_INSTANCE_COUNT) {
-        return HAL_INVALID_PARAM;
+    if (config == NULL || config->instance >= HalUART_INSTANCE_COUNT) {
+        return HalINVALID_PARAM;
     }
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
  * @brief Deinitialize UART peripheral
  * 
  * @param instance UART instance number
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_UART_Deinit(uint8_t instance)
+HalStatus_e HalUART_Deinit(uint8_t instance)
 {
-    if (instance >= HAL_UART_INSTANCE_COUNT) {
-        return HAL_INVALID_PARAM;
+    if (instance >= HalUART_INSTANCE_COUNT) {
+        return HalINVALID_PARAM;
     }
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
@@ -202,18 +202,18 @@ HAL_Status_e HAL_UART_Deinit(uint8_t instance)
  * @param data     Data to transmit
  * @param size     Number of bytes
  * @param timeout  Timeout in milliseconds
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_UART_Transmit(uint8_t instance, const uint8_t *data, 
+HalStatus_e HalUART_Transmit(uint8_t instance, const uint8_t *data, 
                                 uint16_t size, uint32_t timeout)
 {
-    if (instance >= HAL_UART_INSTANCE_COUNT || data == NULL || size == 0) {
-        return HAL_INVALID_PARAM;
+    if (instance >= HalUART_INSTANCE_COUNT || data == NULL || size == 0) {
+        return HalINVALID_PARAM;
     }
     
     (void)timeout;
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
@@ -223,18 +223,18 @@ HAL_Status_e HAL_UART_Transmit(uint8_t instance, const uint8_t *data,
  * @param data     Buffer for received data
  * @param size     Number of bytes to receive
  * @param timeout  Timeout in milliseconds
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_UART_Receive(uint8_t instance, uint8_t *data, 
+HalStatus_e HalUART_Receive(uint8_t instance, uint8_t *data, 
                                uint16_t size, uint32_t timeout)
 {
-    if (instance >= HAL_UART_INSTANCE_COUNT || data == NULL || size == 0) {
-        return HAL_INVALID_PARAM;
+    if (instance >= HalUART_INSTANCE_COUNT || data == NULL || size == 0) {
+        return HalINVALID_PARAM;
     }
     
     (void)timeout;
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
@@ -243,15 +243,15 @@ HAL_Status_e HAL_UART_Receive(uint8_t instance, uint8_t *data,
  * @param instance UART instance
  * @param data     Data to transmit
  * @param size     Number of bytes
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_UART_Transmit_IT(uint8_t instance, const uint8_t *data, uint16_t size)
+HalStatus_e HalUART_Transmit_IT(uint8_t instance, const uint8_t *data, uint16_t size)
 {
-    if (instance >= HAL_UART_INSTANCE_COUNT || data == NULL || size == 0) {
-        return HAL_INVALID_PARAM;
+    if (instance >= HalUART_INSTANCE_COUNT || data == NULL || size == 0) {
+        return HalINVALID_PARAM;
     }
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
@@ -260,15 +260,15 @@ HAL_Status_e HAL_UART_Transmit_IT(uint8_t instance, const uint8_t *data, uint16_
  * @param instance UART instance
  * @param data     Buffer for received data
  * @param size     Number of bytes to receive
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_UART_Receive_IT(uint8_t instance, uint8_t *data, uint16_t size)
+HalStatus_e HalUART_Receive_IT(uint8_t instance, uint8_t *data, uint16_t size)
 {
-    if (instance >= HAL_UART_INSTANCE_COUNT || data == NULL || size == 0) {
-        return HAL_INVALID_PARAM;
+    if (instance >= HalUART_INSTANCE_COUNT || data == NULL || size == 0) {
+        return HalINVALID_PARAM;
     }
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
@@ -276,16 +276,16 @@ HAL_Status_e HAL_UART_Receive_IT(uint8_t instance, uint8_t *data, uint16_t size)
  * 
  * @param instance UART instance
  * @param callback Callback function
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_UART_RegisterRxCallback(uint8_t instance, HAL_UART_RxCallback_t callback)
+HalStatus_e HalUART_RegisterRxCallback(uint8_t instance, HalUART_RxCallback_t callback)
 {
-    if (instance >= HAL_UART_INSTANCE_COUNT) {
-        return HAL_INVALID_PARAM;
+    if (instance >= HalUART_INSTANCE_COUNT) {
+        return HalINVALID_PARAM;
     }
     
     s_halState.uartRxCallbacks[instance] = callback;
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
@@ -293,16 +293,16 @@ HAL_Status_e HAL_UART_RegisterRxCallback(uint8_t instance, HAL_UART_RxCallback_t
  * 
  * @param instance UART instance
  * @param callback Callback function
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_UART_RegisterTxCallback(uint8_t instance, HAL_UART_TxCallback_t callback)
+HalStatus_e HalUART_RegisterTxCallback(uint8_t instance, HalUART_TxCallback_t callback)
 {
-    if (instance >= HAL_UART_INSTANCE_COUNT) {
-        return HAL_INVALID_PARAM;
+    if (instance >= HalUART_INSTANCE_COUNT) {
+        return HalINVALID_PARAM;
     }
     
     s_halState.uartTxCallbacks[instance] = callback;
-    return HAL_OK;
+    return HalOK;
 }
 
 /*============================================================================*/
@@ -313,30 +313,30 @@ HAL_Status_e HAL_UART_RegisterTxCallback(uint8_t instance, HAL_UART_TxCallback_t
  * @brief Initialize SPI peripheral
  * 
  * @param config SPI configuration
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_SPI_Init(const HAL_SPI_Config_t *config)
+HalStatus_e HalSPI_Init(const HalSPI_Config_t *config)
 {
-    if (config == NULL || config->instance >= HAL_SPI_INSTANCE_COUNT) {
-        return HAL_INVALID_PARAM;
+    if (config == NULL || config->instance >= HalSPI_INSTANCE_COUNT) {
+        return HalINVALID_PARAM;
     }
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
  * @brief Deinitialize SPI peripheral
  * 
  * @param instance SPI instance number
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_SPI_Deinit(uint8_t instance)
+HalStatus_e HalSPI_Deinit(uint8_t instance)
 {
-    if (instance >= HAL_SPI_INSTANCE_COUNT) {
-        return HAL_INVALID_PARAM;
+    if (instance >= HalSPI_INSTANCE_COUNT) {
+        return HalINVALID_PARAM;
     }
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
@@ -347,20 +347,20 @@ HAL_Status_e HAL_SPI_Deinit(uint8_t instance)
  * @param rxData     Receive buffer
  * @param size       Number of bytes
  * @param timeout    Timeout in milliseconds
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_SPI_TransmitReceive(uint8_t instance, const uint8_t *txData,
+HalStatus_e HalSPI_TransmitReceive(uint8_t instance, const uint8_t *txData,
                                       uint8_t *rxData, uint16_t size, uint32_t timeout)
 {
-    if (instance >= HAL_SPI_INSTANCE_COUNT || size == 0) {
-        return HAL_INVALID_PARAM;
+    if (instance >= HalSPI_INSTANCE_COUNT || size == 0) {
+        return HalINVALID_PARAM;
     }
     
     (void)txData;
     (void)rxData;
     (void)timeout;
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
@@ -370,12 +370,12 @@ HAL_Status_e HAL_SPI_TransmitReceive(uint8_t instance, const uint8_t *txData,
  * @param data     Data to transmit
  * @param size     Number of bytes
  * @param timeout  Timeout in milliseconds
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_SPI_Transmit(uint8_t instance, const uint8_t *data, 
+HalStatus_e HalSPI_Transmit(uint8_t instance, const uint8_t *data, 
                                uint16_t size, uint32_t timeout)
 {
-    return HAL_SPI_TransmitReceive(instance, data, NULL, size, timeout);
+    return HalSPI_TransmitReceive(instance, data, NULL, size, timeout);
 }
 
 /**
@@ -385,13 +385,13 @@ HAL_Status_e HAL_SPI_Transmit(uint8_t instance, const uint8_t *data,
  * @param data     Buffer for received data
  * @param size     Number of bytes
  * @param timeout  Timeout in milliseconds
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_SPI_Receive(uint8_t instance, uint8_t *data, 
+HalStatus_e HalSPI_Receive(uint8_t instance, uint8_t *data, 
                               uint16_t size, uint32_t timeout)
 {
     uint8_t dummyTx = 0xFF;
-    return HAL_SPI_TransmitReceive(instance, &dummyTx, data, size, timeout);
+    return HalSPI_TransmitReceive(instance, &dummyTx, data, size, timeout);
 }
 
 /*============================================================================*/
@@ -402,30 +402,30 @@ HAL_Status_e HAL_SPI_Receive(uint8_t instance, uint8_t *data,
  * @brief Initialize I2C peripheral
  * 
  * @param config I2C configuration
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_I2C_Init(const HAL_I2C_Config_t *config)
+HalStatus_e HalI2C_Init(const HalI2C_Config_t *config)
 {
-    if (config == NULL || config->instance >= HAL_I2C_INSTANCE_COUNT) {
-        return HAL_INVALID_PARAM;
+    if (config == NULL || config->instance >= HalI2C_INSTANCE_COUNT) {
+        return HalINVALID_PARAM;
     }
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
  * @brief Deinitialize I2C peripheral
  * 
  * @param instance I2C instance number
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_I2C_Deinit(uint8_t instance)
+HalStatus_e HalI2C_Deinit(uint8_t instance)
 {
-    if (instance >= HAL_I2C_INSTANCE_COUNT) {
-        return HAL_INVALID_PARAM;
+    if (instance >= HalI2C_INSTANCE_COUNT) {
+        return HalINVALID_PARAM;
     }
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
@@ -436,20 +436,20 @@ HAL_Status_e HAL_I2C_Deinit(uint8_t instance)
  * @param data       Data to write
  * @param size       Number of bytes
  * @param timeout    Timeout in milliseconds
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_I2C_MasterTransmit(uint8_t instance, uint16_t devAddress,
+HalStatus_e HalI2C_MasterTransmit(uint8_t instance, uint16_t devAddress,
                                      const uint8_t *data, uint16_t size, 
                                      uint32_t timeout)
 {
-    if (instance >= HAL_I2C_INSTANCE_COUNT || data == NULL || size == 0) {
-        return HAL_INVALID_PARAM;
+    if (instance >= HalI2C_INSTANCE_COUNT || data == NULL || size == 0) {
+        return HalINVALID_PARAM;
     }
     
     (void)devAddress;
     (void)timeout;
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
@@ -460,20 +460,20 @@ HAL_Status_e HAL_I2C_MasterTransmit(uint8_t instance, uint16_t devAddress,
  * @param data       Buffer for received data
  * @param size       Number of bytes
  * @param timeout    Timeout in milliseconds
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_I2C_MasterReceive(uint8_t instance, uint16_t devAddress,
+HalStatus_e HalI2C_MasterReceive(uint8_t instance, uint16_t devAddress,
                                     uint8_t *data, uint16_t size, 
                                     uint32_t timeout)
 {
-    if (instance >= HAL_I2C_INSTANCE_COUNT || data == NULL || size == 0) {
-        return HAL_INVALID_PARAM;
+    if (instance >= HalI2C_INSTANCE_COUNT || data == NULL || size == 0) {
+        return HalINVALID_PARAM;
     }
     
     (void)devAddress;
     (void)timeout;
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
@@ -486,15 +486,15 @@ HAL_Status_e HAL_I2C_MasterReceive(uint8_t instance, uint16_t devAddress,
  * @param data        Data to write
  * @param size        Number of bytes
  * @param timeout     Timeout in milliseconds
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_I2C_MemWrite(uint8_t instance, uint16_t devAddress,
+HalStatus_e HalI2C_MemWrite(uint8_t instance, uint16_t devAddress,
                                uint16_t memAddress, uint8_t memAddSize,
                                const uint8_t *data, uint16_t size,
                                uint32_t timeout)
 {
-    if (instance >= HAL_I2C_INSTANCE_COUNT || data == NULL || size == 0) {
-        return HAL_INVALID_PARAM;
+    if (instance >= HalI2C_INSTANCE_COUNT || data == NULL || size == 0) {
+        return HalINVALID_PARAM;
     }
     
     (void)devAddress;
@@ -502,7 +502,7 @@ HAL_Status_e HAL_I2C_MemWrite(uint8_t instance, uint16_t devAddress,
     (void)memAddSize;
     (void)timeout;
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
@@ -515,15 +515,15 @@ HAL_Status_e HAL_I2C_MemWrite(uint8_t instance, uint16_t devAddress,
  * @param data        Buffer for received data
  * @param size        Number of bytes
  * @param timeout     Timeout in milliseconds
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_I2C_MemRead(uint8_t instance, uint16_t devAddress,
+HalStatus_e HalI2C_MemRead(uint8_t instance, uint16_t devAddress,
                               uint16_t memAddress, uint8_t memAddSize,
                               uint8_t *data, uint16_t size,
                               uint32_t timeout)
 {
-    if (instance >= HAL_I2C_INSTANCE_COUNT || data == NULL || size == 0) {
-        return HAL_INVALID_PARAM;
+    if (instance >= HalI2C_INSTANCE_COUNT || data == NULL || size == 0) {
+        return HalINVALID_PARAM;
     }
     
     (void)devAddress;
@@ -531,7 +531,7 @@ HAL_Status_e HAL_I2C_MemRead(uint8_t instance, uint16_t devAddress,
     (void)memAddSize;
     (void)timeout;
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /*============================================================================*/
@@ -542,60 +542,60 @@ HAL_Status_e HAL_I2C_MemRead(uint8_t instance, uint16_t devAddress,
  * @brief Initialize timer peripheral
  * 
  * @param config Timer configuration
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_TIMER_Init(const HAL_TIMER_Config_t *config)
+HalStatus_e HalTIMER_Init(const HalTIMER_Config_t *config)
 {
-    if (config == NULL || config->instance >= HAL_TIMER_INSTANCE_COUNT) {
-        return HAL_INVALID_PARAM;
+    if (config == NULL || config->instance >= HalTIMER_INSTANCE_COUNT) {
+        return HalINVALID_PARAM;
     }
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
  * @brief Deinitialize timer peripheral
  * 
  * @param instance Timer instance number
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_TIMER_Deinit(uint8_t instance)
+HalStatus_e HalTIMER_Deinit(uint8_t instance)
 {
-    if (instance >= HAL_TIMER_INSTANCE_COUNT) {
-        return HAL_INVALID_PARAM;
+    if (instance >= HalTIMER_INSTANCE_COUNT) {
+        return HalINVALID_PARAM;
     }
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
  * @brief Start timer
  * 
  * @param instance Timer instance
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_TIMER_Start(uint8_t instance)
+HalStatus_e HalTIMER_Start(uint8_t instance)
 {
-    if (instance >= HAL_TIMER_INSTANCE_COUNT) {
-        return HAL_INVALID_PARAM;
+    if (instance >= HalTIMER_INSTANCE_COUNT) {
+        return HalINVALID_PARAM;
     }
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
  * @brief Stop timer
  * 
  * @param instance Timer instance
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_TIMER_Stop(uint8_t instance)
+HalStatus_e HalTIMER_Stop(uint8_t instance)
 {
-    if (instance >= HAL_TIMER_INSTANCE_COUNT) {
-        return HAL_INVALID_PARAM;
+    if (instance >= HalTIMER_INSTANCE_COUNT) {
+        return HalINVALID_PARAM;
     }
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
@@ -604,9 +604,9 @@ HAL_Status_e HAL_TIMER_Stop(uint8_t instance)
  * @param instance Timer instance
  * @return Counter value
  */
-uint32_t HAL_TIMER_GetCounter(uint8_t instance)
+uint32_t HalTIMER_GetCounter(uint8_t instance)
 {
-    if (instance >= HAL_TIMER_INSTANCE_COUNT) {
+    if (instance >= HalTIMER_INSTANCE_COUNT) {
         return 0;
     }
     
@@ -618,16 +618,16 @@ uint32_t HAL_TIMER_GetCounter(uint8_t instance)
  * 
  * @param instance Timer instance
  * @param value    Counter value
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_TIMER_SetCounter(uint8_t instance, uint32_t value)
+HalStatus_e HalTIMER_SetCounter(uint8_t instance, uint32_t value)
 {
-    if (instance >= HAL_TIMER_INSTANCE_COUNT) {
-        return HAL_INVALID_PARAM;
+    if (instance >= HalTIMER_INSTANCE_COUNT) {
+        return HalINVALID_PARAM;
     }
     
     (void)value;
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
@@ -635,16 +635,16 @@ HAL_Status_e HAL_TIMER_SetCounter(uint8_t instance, uint32_t value)
  * 
  * @param instance Timer instance
  * @param callback Callback function
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_TIMER_RegisterCallback(uint8_t instance, HAL_TIMER_Callback_t callback)
+HalStatus_e HalTIMER_RegisterCallback(uint8_t instance, HalTIMER_Callback_t callback)
 {
-    if (instance >= HAL_TIMER_INSTANCE_COUNT) {
-        return HAL_INVALID_PARAM;
+    if (instance >= HalTIMER_INSTANCE_COUNT) {
+        return HalINVALID_PARAM;
     }
     
     s_halState.timerCallbacks[instance] = callback;
-    return HAL_OK;
+    return HalOK;
 }
 
 /*============================================================================*/
@@ -655,60 +655,60 @@ HAL_Status_e HAL_TIMER_RegisterCallback(uint8_t instance, HAL_TIMER_Callback_t c
  * @brief Initialize ADC peripheral
  * 
  * @param config ADC configuration
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_ADC_Init(const HAL_ADC_Config_t *config)
+HalStatus_e HalADC_Init(const HalADC_Config_t *config)
 {
-    if (config == NULL || config->instance >= HAL_ADC_INSTANCE_COUNT) {
-        return HAL_INVALID_PARAM;
+    if (config == NULL || config->instance >= HalADC_INSTANCE_COUNT) {
+        return HalINVALID_PARAM;
     }
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
  * @brief Deinitialize ADC peripheral
  * 
  * @param instance ADC instance number
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_ADC_Deinit(uint8_t instance)
+HalStatus_e HalADC_Deinit(uint8_t instance)
 {
-    if (instance >= HAL_ADC_INSTANCE_COUNT) {
-        return HAL_INVALID_PARAM;
+    if (instance >= HalADC_INSTANCE_COUNT) {
+        return HalINVALID_PARAM;
     }
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
  * @brief Start ADC conversion
  * 
  * @param instance ADC instance
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_ADC_Start(uint8_t instance)
+HalStatus_e HalADC_Start(uint8_t instance)
 {
-    if (instance >= HAL_ADC_INSTANCE_COUNT) {
-        return HAL_INVALID_PARAM;
+    if (instance >= HalADC_INSTANCE_COUNT) {
+        return HalINVALID_PARAM;
     }
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
  * @brief Stop ADC conversion
  * 
  * @param instance ADC instance
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_ADC_Stop(uint8_t instance)
+HalStatus_e HalADC_Stop(uint8_t instance)
 {
-    if (instance >= HAL_ADC_INSTANCE_COUNT) {
-        return HAL_INVALID_PARAM;
+    if (instance >= HalADC_INSTANCE_COUNT) {
+        return HalINVALID_PARAM;
     }
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
@@ -717,18 +717,18 @@ HAL_Status_e HAL_ADC_Stop(uint8_t instance)
  * @param instance ADC instance
  * @param value    Output pointer for ADC value
  * @param timeout  Timeout in milliseconds
- * @return HAL_OK on success
+ * @return HalOK on success
  */
-HAL_Status_e HAL_ADC_Read(uint8_t instance, uint16_t *value, uint32_t timeout)
+HalStatus_e HalADC_Read(uint8_t instance, uint16_t *value, uint32_t timeout)
 {
-    if (instance >= HAL_ADC_INSTANCE_COUNT || value == NULL) {
-        return HAL_INVALID_PARAM;
+    if (instance >= HalADC_INSTANCE_COUNT || value == NULL) {
+        return HalINVALID_PARAM;
     }
     
     (void)timeout;
     *value = 0;
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /*============================================================================*/
@@ -738,23 +738,23 @@ HAL_Status_e HAL_ADC_Read(uint8_t instance, uint16_t *value, uint32_t timeout)
 /**
  * @brief Initialize the HAL layer
  */
-HAL_Status_e HAL_Init(void)
+HalStatus_e HalInit(void)
 {
     if (s_halState.initialized) {
-        return HAL_OK;
+        return HalOK;
     }
     
-    memset(&s_halState, 0, sizeof(HAL_State_t));
+    memset(&s_halState, 0, sizeof(HalState_t));
     s_halState.systemClock = 16000000U;
     s_halState.initialized = true;
     
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
  * @brief Deinitialize the HAL layer
  */
-void HAL_Deinit(void)
+void HalDeinit(void)
 {
     s_halState.initialized = false;
 }
@@ -762,20 +762,20 @@ void HAL_Deinit(void)
 /**
  * @brief Configure system clocks
  */
-HAL_Status_e HAL_ClockConfig(const HAL_ClockConfig_t *config)
+HalStatus_e HalClockConfig(const HalClockConfig_t *config)
 {
     if (config == NULL) {
-        return HAL_INVALID_PARAM;
+        return HalINVALID_PARAM;
     }
     
     s_halState.systemClock = config->sysClock;
-    return HAL_OK;
+    return HalOK;
 }
 
 /**
  * @brief Get system clock frequency
  */
-uint32_t HAL_GetSystemClock(void)
+uint32_t HalGetSystemClock(void)
 {
     return s_halState.systemClock;
 }
@@ -783,21 +783,21 @@ uint32_t HAL_GetSystemClock(void)
 /**
  * @brief Enable global interrupts
  */
-void HAL_EnableIRQ(void)
+void HalEnableIRQ(void)
 {
 }
 
 /**
  * @brief Disable global interrupts
  */
-void HAL_DisableIRQ(void)
+void HalDisableIRQ(void)
 {
 }
 
 /**
  * @brief Get tick count
  */
-uint32_t HAL_GetTick(void)
+uint32_t HalGetTick(void)
 {
     return s_halState.tickCount;
 }
@@ -805,7 +805,7 @@ uint32_t HAL_GetTick(void)
 /**
  * @brief Increment tick count (called from SysTick ISR)
  */
-void HAL_IncTick(void)
+void HalIncTick(void)
 {
     s_halState.tickCount++;
 }
@@ -813,9 +813,9 @@ void HAL_IncTick(void)
 /**
  * @brief Delay for specified milliseconds
  */
-void HAL_Delay(uint32_t ms)
+void HalDelay(uint32_t ms)
 {
-    uint32_t start = HAL_GetTick();
-    while ((HAL_GetTick() - start) < ms) {
+    uint32_t start = HalGetTick();
+    while ((HalGetTick() - start) < ms) {
     }
 }

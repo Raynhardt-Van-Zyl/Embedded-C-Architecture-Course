@@ -1,5 +1,5 @@
 /**
- * @file hal_dma.h
+ * @file Haldma.h
  * @brief Hardware Abstraction Layer for Direct Memory Access (DMA).
  *
  * @details
@@ -9,8 +9,8 @@
  * invalidation and cleaning, enforcing safe memory operations at the HAL level.
  */
 
-#ifndef HAL_DMA_H
-#define HAL_DMA_H
+#ifndef HalDMA_H
+#define HalDMA_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -21,16 +21,16 @@ typedef struct HalDma_s* HalDmaHandle;
 
 /** @brief DMA Data Transfer Direction. */
 typedef enum {
-    HAL_DMA_DIR_PERIPH_TO_MEM,
-    HAL_DMA_DIR_MEM_TO_PERIPH,
-    HAL_DMA_DIR_MEM_TO_MEM
+    HalDMA_DIR_PERIPH_TO_MEM,
+    HalDMA_DIR_MEM_TO_PERIPH,
+    HalDMA_DIR_MEM_TO_MEM
 } HalDmaDirection_t;
 
 /** @brief DMA Data Size. */
 typedef enum {
-    HAL_DMA_SIZE_BYTE = 1,
-    HAL_DMA_SIZE_HALF_WORD = 2,
-    HAL_DMA_SIZE_WORD = 4
+    HalDMA_SIZE_BYTE = 1,
+    HalDMA_SIZE_HALF_WORD = 2,
+    HalDMA_SIZE_WORD = 4
 } HalDmaDataSize_t;
 
 /** @brief DMA Callback Types. */
@@ -95,4 +95,4 @@ void HalDma_CleanCache(void* addr, size_t size);
  */
 void HalDma_DeInit(HalDmaHandle handle);
 
-#endif /* HAL_DMA_H */
+#endif /* HalDMA_H */

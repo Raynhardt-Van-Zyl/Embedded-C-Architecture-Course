@@ -24,8 +24,8 @@
  * @date 2024
  */
 
-#ifndef MOCK_HAL_H
-#define MOCK_HAL_H
+#ifndef MOCK_HalH
+#define MOCK_HalH
 
 #ifdef __cplusplus
 extern "C" {
@@ -563,4 +563,4 @@ bool Mock_VerifyAllExpectations(void);
 }
 #endif
 
-#endif /* MOCK_HAL_H */
+#endif /* MOCK_HalH */

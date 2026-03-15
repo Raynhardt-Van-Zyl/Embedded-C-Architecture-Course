@@ -1,9 +1,9 @@
 /**
- * @file hal_dma.c
+ * @file Haldma.c
  * @brief Implementation of the DMA Hardware Abstraction Layer.
  */
 
-#include "hal_dma.h"
+#include "Haldma.h"
 
 #define MAX_DMA_STREAMS 16
 

@@ -1,5 +1,5 @@
 /**
- * @file hal_pwm.h
+ * @file Halpwm.h
  * @brief Hardware Abstraction Layer for Pulse Width Modulation (PWM).
  *
  * @details
@@ -9,8 +9,8 @@
  * the Capture/Compare registers based on the current Auto-Reload value.
  */
 
-#ifndef HAL_PWM_H
-#define HAL_PWM_H
+#ifndef HalPWM_H
+#define HalPWM_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -20,8 +20,8 @@ typedef struct HalPwm_s* HalPwmHandle;
 
 /** @brief PWM Alignment Mode. */
 typedef enum {
-    HAL_PWM_ALIGN_EDGE,   /**< Edge-aligned mode (standard) */
-    HAL_PWM_ALIGN_CENTER  /**< Center-aligned mode (good for motor control) */
+    HalPWM_ALIGN_EDGE,   /**< Edge-aligned mode (standard) */
+    HalPWM_ALIGN_CENTER  /**< Center-aligned mode (good for motor control) */
 } HalPwmAlign_t;
 
 /** @brief PWM configuration structure. */
@@ -65,4 +65,4 @@ void HalPwm_Stop(HalPwmHandle handle);
  */
 void HalPwm_DeInit(HalPwmHandle handle);
 
-#endif /* HAL_PWM_H */
+#endif /* HalPWM_H */

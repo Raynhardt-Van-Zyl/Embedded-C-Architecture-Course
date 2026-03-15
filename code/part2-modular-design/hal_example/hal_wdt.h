@@ -1,5 +1,5 @@
 /**
- * @file hal_wdt.h
+ * @file Halwdt.h
  * @brief Hardware Abstraction Layer for Watchdog Timer (WDT).
  *
  * @details
@@ -9,8 +9,8 @@
  * This API unifies them. Setting window_ms > 0 engages the windowed behavior.
  */
 
-#ifndef HAL_WDT_H
-#define HAL_WDT_H
+#ifndef HalWDT_H
+#define HalWDT_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -43,4 +43,4 @@ HalWdtHandle HalWdt_Init(const HalWdtConfig_t* config);
  */
 void HalWdt_Feed(HalWdtHandle handle);
 
-#endif /* HAL_WDT_H */
+#endif /* HalWDT_H */

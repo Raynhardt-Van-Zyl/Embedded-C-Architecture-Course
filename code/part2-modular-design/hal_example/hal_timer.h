@@ -1,5 +1,5 @@
 /**
- * @file hal_timer.h
+ * @file Haltimer.h
  * @brief Hardware Abstraction Layer for General Purpose Timers.
  *
  * @details
@@ -9,8 +9,8 @@
  * values behind the scenes, ensuring portability across varying core clock speeds.
  */
 
-#ifndef HAL_TIMER_H
-#define HAL_TIMER_H
+#ifndef HalTIMER_H
+#define HalTIMER_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -20,9 +20,9 @@ typedef struct HalTimer_s* HalTimerHandle;
 
 /** @brief Timer Operating Mode. */
 typedef enum {
-    HAL_TIMER_MODE_PERIODIC,   /**< Automatically reloads and repeats */
-    HAL_TIMER_MODE_ONE_SHOT,   /**< Runs once then stops */
-    HAL_TIMER_MODE_INPUT_CAPTURE /**< Captures timestamp on external pin event */
+    HalTIMER_MODE_PERIODIC,   /**< Automatically reloads and repeats */
+    HalTIMER_MODE_ONE_SHOT,   /**< Runs once then stops */
+    HalTIMER_MODE_INPUT_CAPTURE /**< Captures timestamp on external pin event */
 } HalTimerMode_t;
 
 /** @brief Timer interrupt callback. */
@@ -85,4 +85,4 @@ uint32_t HalTimer_GetCaptureValue(HalTimerHandle handle, uint8_t channel);
  */
 void HalTimer_DeInit(HalTimerHandle handle);
 
-#endif /* HAL_TIMER_H */
+#endif /* HalTIMER_H */

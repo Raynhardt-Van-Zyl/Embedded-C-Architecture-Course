@@ -1,9 +1,9 @@
 /**
- * @file hal_pwm.c
+ * @file Halpwm.c
  * @brief Implementation of the PWM Hardware Abstraction Layer.
  */
 
-#include "hal_pwm.h"
+#include "Halpwm.h"
 #include <stddef.h>
 
 #define MAX_PWM_CHANNELS 16

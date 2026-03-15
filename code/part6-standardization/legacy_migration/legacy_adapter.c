@@ -55,7 +55,7 @@ typedef struct { int dummy; } rtos_queue_t;
 /**
  * @brief New non-blocking DMA UART transmission (Fast & Clean).
  */
-void hal_uart_send_dma(const uint8_t *data, uint16_t len) {
+void Haluart_send_dma(const uint8_t *data, uint16_t len) {
     /* Mock: Enqueues data into a DMA descriptor ring buffer. */
     (void)data;
     (void)len;
@@ -93,7 +93,7 @@ void Modern_Uart_Transmit(const uint8_t *data, uint16_t length) {
      */
     if (use_modern_uart_hal) {
         /* Route directly to the new, clean HAL. No overhead. */
-        hal_uart_send_dma(data, length);
+        Haluart_send_dma(data, length);
     } else {
         /* 
          * ANTI-CORRUPTION LAYER (ACL):

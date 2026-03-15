@@ -1,5 +1,5 @@
 /**
- * @file hal_i2c.h
+ * @file Hali2c.h
  * @brief Hardware Abstraction Layer for I2C (Inter-Integrated Circuit).
  * 
  * @details
@@ -13,8 +13,8 @@
  * options in the future (e.g., SMBus support) without breaking the API signature.
  */
 
-#ifndef HAL_I2C_H
-#define HAL_I2C_H
+#ifndef HalI2C_H
+#define HalI2C_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -25,15 +25,15 @@ typedef struct HalI2c_s* HalI2cHandle;
 
 /** @brief I2C speed modes. */
 typedef enum {
-    HAL_I2C_SPEED_STANDARD = 100000, /**< 100 kHz */
-    HAL_I2C_SPEED_FAST     = 400000, /**< 400 kHz */
-    HAL_I2C_SPEED_FAST_PLUS= 1000000 /**< 1 MHz */
+    HalI2C_SPEED_STANDARD = 100000, /**< 100 kHz */
+    HalI2C_SPEED_FAST     = 400000, /**< 400 kHz */
+    HalI2C_SPEED_FAST_PLUS= 1000000 /**< 1 MHz */
 } HalI2cSpeed_t;
 
 /** @brief I2C addressing modes. */
 typedef enum {
-    HAL_I2C_ADDRESSING_7BIT,
-    HAL_I2C_ADDRESSING_10BIT
+    HalI2C_ADDRESSING_7BIT,
+    HalI2C_ADDRESSING_10BIT
 } HalI2cAddressing_t;
 
 /** @brief I2C configuration structure. */
@@ -48,12 +48,12 @@ typedef struct {
 
 /** @brief I2C transaction status codes. */
 typedef enum {
-    HAL_I2C_OK = 0,
-    HAL_I2C_ERR_NACK,
-    HAL_I2C_ERR_TIMEOUT,
-    HAL_I2C_ERR_BUS_BUSY,
-    HAL_I2C_ERR_ARBITRATION_LOST,
-    HAL_I2C_ERR_INVALID_ARGS
+    HalI2C_OK = 0,
+    HalI2C_ERR_NACK,
+    HalI2C_ERR_TIMEOUT,
+    HalI2C_ERR_BUS_BUSY,
+    HalI2C_ERR_ARBITRATION_LOST,
+    HalI2C_ERR_INVALID_ARGS
 } HalI2cStatus_t;
 
 /**
@@ -109,7 +109,7 @@ HalI2cStatus_t HalI2c_SlaveReceive(HalI2cHandle handle, uint8_t* data, size_t le
  * @brief Perform a bus recovery sequence.
  * @details Toggles SCL 9 times and generates a STOP condition to free a stuck bus.
  * @param handle The I2C handle.
- * @return HalI2cStatus_t HAL_I2C_OK if bus is recovered, error otherwise.
+ * @return HalI2cStatus_t HalI2C_OK if bus is recovered, error otherwise.
  */
 HalI2cStatus_t HalI2c_PerformBusRecovery(HalI2cHandle handle);
 
@@ -119,4 +119,4 @@ HalI2cStatus_t HalI2c_PerformBusRecovery(HalI2cHandle handle);
  */
 void HalI2c_DeInit(HalI2cHandle handle);
 
-#endif /* HAL_I2C_H */
+#endif /* HalI2C_H */

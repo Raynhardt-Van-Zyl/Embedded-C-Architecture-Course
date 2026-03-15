@@ -1,9 +1,9 @@
 /**
- * @file hal_wdt.c
+ * @file Halwdt.c
  * @brief Implementation of the WDT Hardware Abstraction Layer.
  */
 
-#include "hal_wdt.h"
+#include "Halwdt.h"
 #include <stddef.h>
 
 #define MAX_WDT_INSTANCES 2 /* Support for 1 IWDG, 1 WWDG */

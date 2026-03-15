@@ -1,5 +1,5 @@
 /**
- * @file hal_gpio.h
+ * @file Halgpio.h
  * @brief Hardware Abstraction Layer for GPIO.
  *
  * @details
@@ -9,8 +9,8 @@
  * or write architecture-specific ISR handlers.
  */
 
-#ifndef HAL_GPIO_H
-#define HAL_GPIO_H
+#ifndef HalGPIO_H
+#define HalGPIO_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -20,27 +20,27 @@ typedef struct HalGpio_s* HalGpioHandle;
 
 /** @brief GPIO pin modes. */
 typedef enum {
-    HAL_GPIO_MODE_INPUT,
-    HAL_GPIO_MODE_OUTPUT_PP, /**< Push-Pull */
-    HAL_GPIO_MODE_OUTPUT_OD, /**< Open-Drain */
-    HAL_GPIO_MODE_AF_PP,     /**< Alternate Function Push-Pull */
-    HAL_GPIO_MODE_AF_OD,     /**< Alternate Function Open-Drain */
-    HAL_GPIO_MODE_ANALOG     /**< Analog (ADC/DAC) */
+    HalGPIO_MODE_INPUT,
+    HalGPIO_MODE_OUTPUT_PP, /**< Push-Pull */
+    HalGPIO_MODE_OUTPUT_OD, /**< Open-Drain */
+    HalGPIO_MODE_AF_PP,     /**< Alternate Function Push-Pull */
+    HalGPIO_MODE_AF_OD,     /**< Alternate Function Open-Drain */
+    HalGPIO_MODE_ANALOG     /**< Analog (ADC/DAC) */
 } HalGpioMode_t;
 
 /** @brief GPIO pull-up/pull-down resistor settings. */
 typedef enum {
-    HAL_GPIO_PULL_NONE,
-    HAL_GPIO_PULL_UP,
-    HAL_GPIO_PULL_DOWN
+    HalGPIO_PULL_NONE,
+    HalGPIO_PULL_UP,
+    HalGPIO_PULL_DOWN
 } HalGpioPull_t;
 
 /** @brief GPIO interrupt trigger definitions. */
 typedef enum {
-    HAL_GPIO_INTR_NONE,
-    HAL_GPIO_INTR_RISING_EDGE,
-    HAL_GPIO_INTR_FALLING_EDGE,
-    HAL_GPIO_INTR_BOTH_EDGES
+    HalGPIO_INTR_NONE,
+    HalGPIO_INTR_RISING_EDGE,
+    HalGPIO_INTR_FALLING_EDGE,
+    HalGPIO_INTR_BOTH_EDGES
 } HalGpioIntr_t;
 
 /** @brief Callback function type for GPIO interrupts. */
@@ -60,8 +60,8 @@ typedef struct {
 
 /** @brief Logical state of a pin. */
 typedef enum {
-    HAL_GPIO_STATE_LOW = 0,
-    HAL_GPIO_STATE_HIGH = 1
+    HalGPIO_STATE_LOW = 0,
+    HalGPIO_STATE_HIGH = 1
 } HalGpioState_t;
 
 /**
@@ -97,4 +97,4 @@ void HalGpio_Toggle(HalGpioHandle handle);
  */
 void HalGpio_DeInit(HalGpioHandle handle);
 
-#endif /* HAL_GPIO_H */
+#endif /* HalGPIO_H */

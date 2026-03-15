@@ -95,7 +95,7 @@ static uint32_t g_watchdogFedCount = 0U;
 /**
  * @brief Get system tick count (simulated)
  */
-static uint32_t HAL_GetTick(void)
+static uint32_t HalGetTick(void)
 {
     return g_simulatedTick;
 }
@@ -103,7 +103,7 @@ static uint32_t HAL_GetTick(void)
 /**
  * @brief Get microsecond timer value (simulated)
  */
-static uint32_t HAL_GetMicrosecond(void)
+static uint32_t HalGetMicrosecond(void)
 {
     return g_simulatedUs;
 }
@@ -111,7 +111,7 @@ static uint32_t HAL_GetMicrosecond(void)
 /**
  * @brief Feed the watchdog (simulated)
  */
-static void HAL_FeedWatchdog(void)
+static void HalFeedWatchdog(void)
 {
     g_watchdogFedCount++;
     /* In real hardware: WDT->KR = WDT_KEY_REFRESH; */
@@ -120,7 +120,7 @@ static void HAL_FeedWatchdog(void)
 /**
  * @brief Set LED state (simulated)
  */
-static void HAL_SetLed(bool state)
+static void HalSetLed(bool state)
 {
     g_ledState = state;
     /* In real hardware: GPIO->ODR = (state) ? (GPIO->ODR | LED_PIN) : (GPIO->ODR & ~LED_PIN); */
@@ -129,7 +129,7 @@ static void HAL_SetLed(bool state)
 /**
  * @brief Read button state (simulated)
  */
-static bool HAL_ReadButton(void)
+static bool HalReadButton(void)
 {
     return g_buttonState;
 }
@@ -137,7 +137,7 @@ static bool HAL_ReadButton(void)
 /**
  * @brief Read temperature sensor (simulated)
  */
-static int16_t HAL_ReadTemperature(void)
+static int16_t HalReadTemperature(void)
 {
     /* Simulate temperature fluctuation */
     static int16_t tempOffset = 0;
@@ -148,7 +148,7 @@ static int16_t HAL_ReadTemperature(void)
 /**
  * @brief Initialize hardware (simulated)
  */
-static void HAL_Init(void)
+static void HalInit(void)
 {
     g_simulatedTick = 0U;
     g_simulatedUs = 0U;
@@ -162,7 +162,7 @@ static void HAL_Init(void)
 /**
  * @brief Simulate time passing (for testing on PC)
  */
-static void HAL_SimulateTick(void)
+static void HalSimulateTick(void)
 {
     g_simulatedTick++;
     g_simulatedUs += 1000U; /* 1ms = 1000us */
@@ -249,7 +249,7 @@ static TaskResult_t Task_LedBlink(void)
     {
         /* Toggle LED state */
         ledIsOn = !ledIsOn;
-        HAL_SetLed(ledIsOn);
+        HalSetLed(ledIsOn);
         
         /* Update last toggle time */
         lastToggleTime = currentTime;
@@ -280,7 +280,7 @@ static TaskResult_t Task_TemperatureMonitor(void)
     int16_t temperature;
     
     /* Read temperature sensor */
-    temperature = HAL_ReadTemperature();
+    temperature = HalReadTemperature();
     
     /* Check for over-temperature condition */
     if (temperature > (TEMP_MAX_LIMIT + TEMP_HYSTERESIS))
@@ -344,7 +344,7 @@ static TaskResult_t Task_ButtonDebounce(void)
     bool rawState;
     
     /* Read raw button state */
-    rawState = HAL_ReadButton();
+    rawState = HalReadButton();
     
     /* Check if state has changed */
     if (rawState != lastRawState)
@@ -447,7 +447,7 @@ static TaskResult_t Task_CommandProcessor(void)
         case 0x02: /* Set LED */
             if (cmd.dataLength > 0)
             {
-                HAL_SetLed(cmd.data[0] != 0U);
+                HalSetLed(cmd.data[0] != 0U);
                 printf("[CMD] LED set to %s\n", cmd.data[0] ? "ON" : "OFF");
             }
             break;
@@ -533,15 +533,15 @@ int main(void)
     uint32_t simulationIterations = 0U;
     
     /* Initialize hardware abstraction layer */
-    HAL_Init();
+    HalInit();
     
     /* Configure scheduler */
     schedulerConfig.enableWatchdog = true;
     schedulerConfig.enableStatistics = true;
     schedulerConfig.watchdogTimeoutMs = 1000U;
-    schedulerConfig.watchdogFeedFn = HAL_FeedWatchdog;
-    schedulerConfig.getTickFn = HAL_GetTick;
-    schedulerConfig.getTimeUsFn = HAL_GetMicrosecond;
+    schedulerConfig.watchdogFeedFn = HalFeedWatchdog;
+    schedulerConfig.getTickFn = HalGetTick;
+    schedulerConfig.getTimeUsFn = HalGetMicrosecond;
     
     /* Initialize scheduler */
     if (!Superloop_Init(&schedulerConfig))
@@ -656,7 +656,7 @@ int main(void)
     while (simulationIterations < 5000U)
     {
         /* Simulate time passing */
-        HAL_SimulateTick();
+        HalSimulateTick();
         
         /* Simulate button press at iteration 1000 */
         if (simulationIterations == 1000U)
