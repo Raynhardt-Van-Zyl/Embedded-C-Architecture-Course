@@ -1,4 +1,35 @@
-# Chapter 3: Principles of Modular Design
+# Chapter 3 — Designing Modules in Embedded C
+## Who This Chapter Is For
+
+- Embedded C engineers implementing or reviewing production firmware architecture
+- Technical leads and architects defining team-wide standards
+
+## Prerequisites
+
+- Familiarity with C syntax and embedded build/debug workflows
+- Completion of prior chapter topics in this curriculum (recommended)
+
+## Learning Objectives
+
+- Explain the core architectural principles covered in this chapter
+- Apply the chapter rules to structure module boundaries and dependencies
+- Evaluate existing code for architectural risks related to this chapter
+
+## Key Terms
+
+- Architecture boundary
+- Module contract
+- Dependency direction
+
+## Practical Checkpoint
+
+- Review one existing module and document 2 improvements based on this chapter's guidance
+- Refactor one API or dependency edge to align with the chapter standards
+
+## What to Read Next
+
+- Continue with the next section in this chapter, then proceed to the next chapter in `src/SUMMARY.md`.
+
 
 In the realm of Embedded C, where resources are constrained and systems are intimately tied to hardware, the architecture of the software often dictates its long-term survival. As projects grow from a few thousand lines of code to hundreds of thousands or even millions, the ad-hoc approaches that worked for quick prototypes rapidly break down. This is where **Modular Design** becomes not just a best practice, but a critical necessity.
 

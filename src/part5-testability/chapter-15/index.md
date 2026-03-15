@@ -1,4 +1,35 @@
-# Chapter 15: Static Analysis and Code Quality
+# Chapter 15 — Static Analysis and Compliance Automation
+## Who This Chapter Is For
+
+- Embedded C engineers implementing or reviewing production firmware architecture
+- Technical leads and architects defining team-wide standards
+
+## Prerequisites
+
+- Familiarity with C syntax and embedded build/debug workflows
+- Completion of prior chapter topics in this curriculum (recommended)
+
+## Learning Objectives
+
+- Explain the core architectural principles covered in this chapter
+- Apply the chapter rules to structure module boundaries and dependencies
+- Evaluate existing code for architectural risks related to this chapter
+
+## Key Terms
+
+- Architecture boundary
+- Module contract
+- Dependency direction
+
+## Practical Checkpoint
+
+- Review one existing module and document 2 improvements based on this chapter's guidance
+- Refactor one API or dependency edge to align with the chapter standards
+
+## What to Read Next
+
+- Continue with the next section in this chapter, then proceed to the next chapter in `src/SUMMARY.md`.
+
 
 Even with rigorous unit testing, C remains a fundamentally dangerous language. It provides immense power and low-level control but offers zero safety nets regarding memory management, bounds checking, or type safety. A program that passes all unit tests with 100% coverage can still crash spectacularly due to a buffer overflow or undefined behavior that the tests failed to trigger.
 

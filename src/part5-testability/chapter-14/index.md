@@ -1,4 +1,35 @@
-# Chapter 14: Designing for Testability
+# Chapter 14 — Designing for Testability
+## Who This Chapter Is For
+
+- Embedded C engineers implementing or reviewing production firmware architecture
+- Technical leads and architects defining team-wide standards
+
+## Prerequisites
+
+- Familiarity with C syntax and embedded build/debug workflows
+- Completion of prior chapter topics in this curriculum (recommended)
+
+## Learning Objectives
+
+- Explain the core architectural principles covered in this chapter
+- Apply the chapter rules to structure module boundaries and dependencies
+- Evaluate existing code for architectural risks related to this chapter
+
+## Key Terms
+
+- Architecture boundary
+- Module contract
+- Dependency direction
+
+## Practical Checkpoint
+
+- Review one existing module and document 2 improvements based on this chapter's guidance
+- Refactor one API or dependency edge to align with the chapter standards
+
+## What to Read Next
+
+- Continue with the next section in this chapter, then proceed to the next chapter in `src/SUMMARY.md`.
+
 
 Testability in embedded systems is rarely an accident; it is the direct result of deliberate architectural decisions. In many traditional embedded software projects, testing is an afterthought, typically relegated to manual, end-of-line verification on target hardware. This approach is slow, expensive, and scales poorly as system complexity grows. 
 

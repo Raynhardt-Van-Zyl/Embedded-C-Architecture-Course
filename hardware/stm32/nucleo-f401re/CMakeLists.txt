@@ -5,12 +5,24 @@ set(CMAKE_SYSTEM_PROCESSOR ARM)
 
 set(NUCLEO_F401RE_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(CMAKE_C_COMPILER arm-none-eabi-gcc)
-set(CMAKE_CXX_COMPILER arm-none-eabi-g++)
-set(CMAKE_ASM_COMPILER arm-none-eabi-gcc)
-set(CMAKE_OBJCOPY arm-none-eabi-objcopy)
-set(CMAKE_OBJDUMP arm-none-eabi-objdump)
-set(CMAKE_SIZE arm-none-eabi-size)
+find_program(ARM_NONE_EABI_GCC arm-none-eabi-gcc)
+find_program(ARM_NONE_EABI_GXX arm-none-eabi-g++)
+find_program(ARM_NONE_EABI_OBJCOPY arm-none-eabi-objcopy)
+find_program(ARM_NONE_EABI_OBJDUMP arm-none-eabi-objdump)
+find_program(ARM_NONE_EABI_SIZE arm-none-eabi-size)
+
+if(ARM_NONE_EABI_GCC AND ARM_NONE_EABI_GXX)
+    set(CMAKE_C_COMPILER ${ARM_NONE_EABI_GCC})
+    set(CMAKE_CXX_COMPILER ${ARM_NONE_EABI_GXX})
+    set(CMAKE_ASM_COMPILER ${ARM_NONE_EABI_GCC})
+    set(CMAKE_OBJCOPY ${ARM_NONE_EABI_OBJCOPY})
+    set(CMAKE_OBJDUMP ${ARM_NONE_EABI_OBJDUMP})
+    set(CMAKE_SIZE ${ARM_NONE_EABI_SIZE})
+else()
+    message(WARNING "arm-none-eabi toolchain not found. Falling back to host compiler for structure checks.")
+endif()
+
+project(NucleoF401REExamples LANGUAGES C CXX ASM)
 
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
@@ -60,8 +72,6 @@ set(CMAKE_EXE_LINKER_FLAGS
 set(NUCLEO_INCLUDES
     ${NUCLEO_F401RE_ROOT}/bsp
     ${NUCLEO_F401RE_ROOT}/hal
-    ${NUCLEO_F401RE_ROOT}/include/cmsis
-    ${NUCLEO_F401RE_ROOT}/startup
 )
 
 set(BSP_SOURCES
@@ -75,9 +85,10 @@ set(HAL_SOURCES
     ${NUCLEO_F401RE_ROOT}/hal/hal_timer.c
 )
 
-set(LINKER_SCRIPT
-    ${NUCLEO_F401RE_ROOT}/linker/STM32F401RETx_FLASH.ld
-)
+set(LINKER_SCRIPT "")
+if(EXISTS ${NUCLEO_F401RE_ROOT}/../../../code/infrastructure/linker_script.ld)
+    set(LINKER_SCRIPT ${NUCLEO_F401RE_ROOT}/../../../code/infrastructure/linker_script.ld)
+endif()
 
 function(add_nucleo_example EXAMPLE_NAME EXAMPLE_DIR)
     set(EXAMPLE_TARGET nucleo-f401re-${EXAMPLE_NAME})
@@ -98,9 +109,12 @@ function(add_nucleo_example EXAMPLE_NAME EXAMPLE_DIR)
     )
     
     target_link_options(${EXAMPLE_TARGET} PRIVATE
-        -T${LINKER_SCRIPT}
         -Wl,-Map=${EXAMPLE_TARGET}.map
     )
+
+    if(LINKER_SCRIPT)
+        target_link_options(${EXAMPLE_TARGET} PRIVATE -T${LINKER_SCRIPT})
+    endif()
     
     add_custom_command(TARGET ${EXAMPLE_TARGET} POST_BUILD
         COMMAND ${CMAKE_OBJCOPY} -O binary ${EXAMPLE_TARGET} ${EXAMPLE_TARGET}.bin

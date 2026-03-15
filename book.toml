@@ -11,8 +11,6 @@ create-missing = true
 [output.html]
 default-theme = "rust"
 preferred-dark-theme = "navy"
-git-repository-url = "https://github.com/your-org/embedded-c-architecture"
-edit-url-template = "https://github.com/your-org/embedded-c-architecture/edit/main/{path}"
 
 [output.html.fold]
 enable = true

@@ -1,4 +1,35 @@
 # Chapter 16 — Defining the Framework Scope
+## Who This Chapter Is For
+
+- Embedded C engineers implementing or reviewing production firmware architecture
+- Technical leads and architects defining team-wide standards
+
+## Prerequisites
+
+- Familiarity with C syntax and embedded build/debug workflows
+- Completion of prior chapter topics in this curriculum (recommended)
+
+## Learning Objectives
+
+- Explain the core architectural principles covered in this chapter
+- Apply the chapter rules to structure module boundaries and dependencies
+- Evaluate existing code for architectural risks related to this chapter
+
+## Key Terms
+
+- Architecture boundary
+- Module contract
+- Dependency direction
+
+## Practical Checkpoint
+
+- Review one existing module and document 2 improvements based on this chapter's guidance
+- Refactor one API or dependency edge to align with the chapter standards
+
+## What to Read Next
+
+- Continue with the next section in this chapter, then proceed to the next chapter in `src/SUMMARY.md`.
+
 
 Welcome to Part 6 of the Embedded C Architecture course. Up until this point, we have explored the technical underpinnings of building robust, testable, and maintainable embedded systems. We've looked at hardware abstraction, decoupling, testing, and concurrency. However, technical excellence alone is not enough to ensure the long-term success of an embedded software organization. 
 
