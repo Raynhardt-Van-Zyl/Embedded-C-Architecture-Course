@@ -118,11 +118,11 @@ Every task in an RTOS must eventually enter the Blocked state (via a Queue, Sema
 
 ```mermaid
 graph TD
-    subgraph Task A Context
+    subgraph SG_1["Task A Context"]
         A1[Take Mutex_I2C] --> A2[Wait for Mutex_SPI]
     end
 
-    subgraph Task B Context
+    subgraph SG_2["Task B Context"]
         B1[Take Mutex_SPI] --> B2[Wait for Mutex_I2C]
     end
 

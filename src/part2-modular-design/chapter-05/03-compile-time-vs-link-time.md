@@ -30,14 +30,14 @@ Later, the Linker searches `sensor.o` for the symbol `Sensor_Read`. When it find
 
 ```mermaid
 graph TD
-    subgraph Compile-Time Dependencies (The #include Web)
+    subgraph SG_1["Compile-Time Dependencies (The #include Web)"]
         H1[sensor.h] -.->|#include forces recompile| C1[main.c]
         H1 -.->|#include forces recompile| C2[logger.c]
         C1 -->|GCC| O1[main.o]
         C2 -->|GCC| O2[logger.o]
     end
     
-    subgraph Link-Time Dependencies (Symbol Resolution)
+    subgraph SG_2["Link-Time Dependencies (Symbol Resolution)"]
         O1 -->|Requires Symbol 'Sensor_Read'| L[Linker 'ld']
         O2 -->|Requires Symbol 'Sensor_Log'| L
         SensorObj[sensor.o] -->|Provides Symbols| L

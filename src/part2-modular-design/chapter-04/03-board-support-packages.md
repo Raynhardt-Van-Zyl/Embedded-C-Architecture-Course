@@ -82,17 +82,17 @@ BME280_t* BSP_GetTemperatureSensor(void) {
 
 ```mermaid
 graph TD
-    subgraph Board Support Package (BSP)
+    subgraph SG_1["Board Support Package (BSP)"]
         BSP_Init -->|Creates| I2C[HAL I2C Instance]
         BSP_Init -->|Creates| GPIO[HAL GPIO Instance]
         BSP_Init -->|Injects I2C into| BME[BME280 Driver]
     end
     
-    subgraph Application Layer
+    subgraph SG_2["Application Layer"]
         App[Main Thermostat Logic] -->|Calls| BME
     end
     
-    subgraph Silicon HAL
+    subgraph SG_3["Silicon HAL"]
         I2C --> STM32_I2C[STM32 Registers]
         GPIO --> STM32_GPIO[STM32 Registers]
     end
