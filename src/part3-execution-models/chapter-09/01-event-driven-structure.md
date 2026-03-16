@@ -143,17 +143,17 @@ If a button press requires writing to Flash memory (which takes 20 milliseconds)
 
 ```mermaid
 graph TD
-    subgraph Producers (ISRs / Timers)
+    subgraph SG_1["Producers (ISRs / Timers)"]
         A(UART RX ISR)
         B(ADC DMA ISR)
         C(Software Timer Task)
     end
 
-    subgraph Transport (Thread Safe)
+    subgraph SG_2["Transport (Thread Safe)"]
         D{RTOS Queue / Lock-Free Ring Buffer}
     end
 
-    subgraph Consumer (Single Threaded)
+    subgraph SG_3["Consumer (Single Threaded)"]
         E[Application Task]
         F(State Machine Logic)
     end

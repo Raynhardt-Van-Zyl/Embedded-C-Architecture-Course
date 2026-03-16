@@ -49,11 +49,11 @@ By introducing an abstraction, we break the physical dependency.
 
 ```mermaid
 graph TD
-    subgraph Tight Coupling (No Abstraction)
+    subgraph SG_1["Tight Coupling (No Abstraction)"]
         App1[Thermostat Logic] -->|Direct Register Writes| HW1[STM32 I2C Registers]
     end
     
-    subgraph Loose Coupling (With Abstraction)
+    subgraph SG_2["Loose Coupling (With Abstraction)"]
         App2[Thermostat Logic] -->|Calls generic interface| INT[I2C Interface]
         INT -.->|Implementation A| HW2[STM32 I2C Driver]
         INT -.->|Implementation B| MOCK[PC Unit Test Mock]

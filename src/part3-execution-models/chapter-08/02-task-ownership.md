@@ -106,17 +106,17 @@ A single task that handles UART, Sensors, Display, and Motor Control. It contain
 
 ```mermaid
 graph TD
-    subgraph Data Producers
+    subgraph SG_1["Data Producers"]
         A[Task: Network JSON Parser]
         B[Task: Sensor Aggregator]
     end
 
-    subgraph The Owner
+    subgraph SG_2["The Owner"]
         C(Queue: Display Commands)
         D[Task: Display Manager]
     end
 
-    subgraph Hardware
+    subgraph SG_3["Hardware"]
         E[SPI / I2C Bus]
         F[OLED Screen]
     end

@@ -110,12 +110,12 @@ void Thermostat_ControlLoop(ITempSensor_t* sensor_instance, const ITempSensor_VT
 
 ```mermaid
 graph LR
-    subgraph RAM
+    subgraph SG_1["RAM"]
         App[App Logic] -->|Holds Pointer to| State[ITempSensor_Context_t\ni2c_bus\ni2c_address]
         App -->|Holds Pointer to| VT_Flash
     end
     
-    subgraph FLASH (ROM)
+    subgraph SG_2["FLASH (ROM)"]
         VT_Flash[BME280_VTable] -->|ReadCelsius Ptr| Func1[BME280_Read() Instructions]
         VT_Flash -->|IsHealthy Ptr| Func2[BME280_Health() Instructions]
     end

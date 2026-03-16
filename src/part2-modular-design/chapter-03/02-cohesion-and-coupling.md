@@ -77,7 +77,7 @@ When the compiler generates `A.o`, it leaves a "hole" where the call to `B_Funct
 
 ```mermaid
 graph LR
-    subgraph Tight Link-Time Coupling
+    subgraph SG_1["Tight Link-Time Coupling"]
         A[App_Thermostat.o] -->|Direct Call: 'TempSensor_Read()'| B[Driver_TempSensor.o]
         B -->|Direct Call: 'I2C_Transfer()'| C[HAL_I2C.o]
     end

@@ -1,4 +1,4 @@
-# 2.4 Data Flow in Embedded Systems: State and Concurrency
+# 2.3 Control Flow in Embedded Systems: State and Concurrency
 
 ## Managing State and Concurrency
 
@@ -122,13 +122,13 @@ void App_Task_FlightController(void) {
 
 ```mermaid
 graph TD
-    subgraph BAD: Shared State
+    subgraph SG_1["BAD: Shared State"]
         ISR1[ISR: ADC] -->|Writes| GLOBAL[Global Struct]
         TASK1[Main Task] -->|Reads| GLOBAL
         style GLOBAL fill:#ffcccc,stroke:#ff0000
     end
 
-    subgraph GOOD: Decoupled Queues
+    subgraph SG_2["GOOD: Decoupled Queues"]
         ISR2[ISR: ADC] -->|Push By Value| QUEUE[(Thread-Safe Queue)]
         QUEUE -->|Pop By Value| TASK2[Main Task]
         style QUEUE fill:#ccffcc,stroke:#00aa00

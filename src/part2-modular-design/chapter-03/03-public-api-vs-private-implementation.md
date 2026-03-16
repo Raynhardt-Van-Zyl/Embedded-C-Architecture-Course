@@ -48,14 +48,14 @@ If `main.c` tries to call `flush_buffer_to_flash()`, the Linker will throw an `u
 
 ```mermaid
 graph TD
-    subgraph data_logger.o Symbol Table
+    subgraph SG_1["data_logger.o Symbol Table"]
         P1[Public: DataLogger_Init] -->|GLOBAL| Linker
         P2[Public: DataLogger_Log] -->|GLOBAL| Linker
         S1[Private: raw_flash_buffer] -.->|LOCAL - Hidden| Linker
         S2[Private: flush_buffer_to_flash] -.->|LOCAL - Hidden| Linker
     end
     
-    subgraph main.o
+    subgraph SG_2["main.o"]
         M1[main.c] -->|Calls DataLogger_Init| Linker
         M1 -.-x|Fails to link flush_buffer_to_flash| Linker
     end

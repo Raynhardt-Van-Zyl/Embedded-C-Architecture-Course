@@ -12,7 +12,7 @@ This document establishes our company standard for **Dependency Inversion**, a p
 
 ```mermaid
 graph TD
-    subgraph Toxic Downward Architecture
+    subgraph SG_1["Toxic Downward Architecture"]
         App[Application Logic: Heater Controller] -->|Direct Call| Driver[Driver: PWM Module]
         Driver -->|Direct Call| HAL[STM32 TIM HAL]
     end
@@ -81,7 +81,7 @@ const IHeaterOutput_VTable_t PWM_Heater_Interface = {
 
 ```mermaid
 graph TD
-    subgraph Inverted Architecture (The Standard)
+    subgraph SG_2["Inverted Architecture (The Standard)"]
         App[Application Logic: Heater Controller] -->|Defines & Uses| Interface[IHeaterOutput_VTable_t]
         Driver[Driver: PWM Module] -->|Implements| Interface
         Driver -->|Direct Call| HAL[STM32 TIM HAL]

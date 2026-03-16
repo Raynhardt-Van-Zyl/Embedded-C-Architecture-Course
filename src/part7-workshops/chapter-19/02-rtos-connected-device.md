@@ -45,15 +45,15 @@ A professional RTOS architecture borrows from the "Actor Model". Tasks do not sh
 
 ```mermaid
 graph LR
-    subgraph Sensor Domain
+    subgraph SG_1["Sensor Domain"]
         ST[Sensor Task]
     end
     
-    subgraph Network Domain
+    subgraph SG_2["Network Domain"]
         NT[Network Task]
     end
     
-    subgraph UI Domain
+    subgraph SG_3["UI Domain"]
         UT[UI Task]
     end
 

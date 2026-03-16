@@ -136,17 +136,17 @@ HAL_UART_t* Hal_Uart_Init(uint8_t uart_id, const HalUartConfig_t* config) {
 
 ```mermaid
 graph TD
-    subgraph "Application Layer"
+    subgraph SG_1["Application Layer"]
         APP[Application Logic]
     end
     
-    subgraph "Architectural HAL (YOUR CODE)"
+    subgraph SG_2["Architectural HAL (YOUR CODE)"]
         API[hal_uart.h - Pure C Interface]
         IMPL[hal_uart.c - Vendor Wrapper]
         MOCK[hal_uart_mock.c - Test Double]
     end
     
-    subgraph "Vendor HALs (NOT YOUR CODE)"
+    subgraph SG_3["Vendor HALs (NOT YOUR CODE)"]
         ST[STM32 HAL]
         NXP[NXP MCUXpresso]
         NRF[Nordic nrfx]

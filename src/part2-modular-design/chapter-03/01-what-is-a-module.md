@@ -18,17 +18,17 @@ The compiler takes this Translation Unit and generates an Object File (`.o` or `
 
 ```mermaid
 graph TD
-    subgraph Preprocessor Phase
+    subgraph SG_1["Preprocessor Phase"]
         H1[sensor.h] -.->|#include| C1[sensor.c]
         H2[types.h] -.->|#include| H1
         C1 --> TU[Translation Unit\nSingle Large Text File]
     end
     
-    subgraph Compiler Phase
+    subgraph SG_2["Compiler Phase"]
         TU -->|Lexing, Parsing, AST, Code Gen| OBJ[sensor.o Object File]
     end
     
-    subgraph Linker Phase
+    subgraph SG_3["Linker Phase"]
         OBJ -->|Symbol Resolution| LINK[Linker]
         OtherOBJ[main.o] --> LINK
         LINK --> BIN[Final Firmware Binary]
