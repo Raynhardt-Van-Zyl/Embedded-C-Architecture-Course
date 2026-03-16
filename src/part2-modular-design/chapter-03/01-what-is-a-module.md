@@ -195,5 +195,5 @@ By strictly adhering to this definition of a module, we achieve massive architec
 ## 6. Reference Implementation
 
 See the complete, production-ready module templates:
-- **Header Template:** [`code/part2-modular-design/module_pattern/module_template.h`](../../../code/part2-modular-design/module_pattern/module_template.h)
-- **Implementation Template:** [`code/part2-modular-design/module_pattern/module_template.c`](../../../code/part2-modular-design/module_pattern/module_template.c)
+- **Header Template:** [`code/part2-modular-design/module_pattern/module_template.h`](https://github.com/raynhardt-van-zyl/Embedded-C-Architecture-Course/blob/main/code/part2-modular-design/module_pattern/module_template.h)
+- **Implementation Template:** [`code/part2-modular-design/module_pattern/module_template.c`](https://github.com/raynhardt-van-zyl/Embedded-C-Architecture-Course/blob/main/code/part2-modular-design/module_pattern/module_template.c)

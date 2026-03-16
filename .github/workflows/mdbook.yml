@@ -37,6 +37,10 @@ jobs:
         uses: actions/configure-pages@v4
       - name: Build with mdBook
         run: mdbook build
+      - name: Copy code samples into Pages artifact
+        run: |
+          rm -rf ./book/code
+          cp -R ./code ./book/code
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

@@ -129,5 +129,5 @@ sequenceDiagram
 ## 6. Reference Implementation
 
 See the complete, production-ready ISR-safe ring buffer and UART ISR implementation:
-- **Lock-Free SPSC Ring Buffer:** [`code/part3-execution-models/isr_patterns/isr_safe.h`](../../../code/part3-execution-models/isr_patterns/isr_safe.h) and [`code/part3-execution-models/isr_patterns/isr_safe.c`](../../../code/part3-execution-models/isr_patterns/isr_safe.c)
-- **Complete UART ISR Example:** [`code/part3-execution-models/isr_patterns/uart_isr_example.c`](../../../code/part3-execution-models/isr_patterns/uart_isr_example.c)
+- **Lock-Free SPSC Ring Buffer:** [`code/part3-execution-models/isr_patterns/isr_safe.h`](https://github.com/raynhardt-van-zyl/Embedded-C-Architecture-Course/blob/main/code/part3-execution-models/isr_patterns/isr_safe.h) and [`code/part3-execution-models/isr_patterns/isr_safe.c`](https://github.com/raynhardt-van-zyl/Embedded-C-Architecture-Course/blob/main/code/part3-execution-models/isr_patterns/isr_safe.c)
+- **Complete UART ISR Example:** [`code/part3-execution-models/isr_patterns/uart_isr_example.c`](https://github.com/raynhardt-van-zyl/Embedded-C-Architecture-Course/blob/main/code/part3-execution-models/isr_patterns/uart_isr_example.c)

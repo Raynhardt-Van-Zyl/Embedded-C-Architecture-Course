@@ -144,7 +144,7 @@ void BadTask(void *pvParams) {
 ## 6. Reference Implementation
 
 See the complete, production-ready RTOS task templates and implementations:
-- **Task Template Header:** [`code/part3-execution-models/rtos_patterns/rtos_task_template.h`](../../../code/part3-execution-models/rtos_patterns/rtos_task_template.h)
-- **Task Template Implementation:** [`code/part3-execution-models/rtos_patterns/rtos_task_template.c`](../../../code/part3-execution-models/rtos_patterns/rtos_task_template.c)
-- **Thread-Safe Queue Wrapper:** [`code/part3-execution-models/rtos_patterns/safe_queue.h`](../../../code/part3-execution-models/rtos_patterns/safe_queue.h)
-- **Complete Network Task Example:** [`code/part7-workshops/rtos_device/task_network.c`](../../../code/part7-workshops/rtos_device/task_network.c)
+- **Task Template Header:** [`code/part3-execution-models/rtos_patterns/rtos_task_template.h`](https://github.com/raynhardt-van-zyl/Embedded-C-Architecture-Course/blob/main/code/part3-execution-models/rtos_patterns/rtos_task_template.h)
+- **Task Template Implementation:** [`code/part3-execution-models/rtos_patterns/rtos_task_template.c`](https://github.com/raynhardt-van-zyl/Embedded-C-Architecture-Course/blob/main/code/part3-execution-models/rtos_patterns/rtos_task_template.c)
+- **Thread-Safe Queue Wrapper:** [`code/part3-execution-models/rtos_patterns/safe_queue.h`](https://github.com/raynhardt-van-zyl/Embedded-C-Architecture-Course/blob/main/code/part3-execution-models/rtos_patterns/safe_queue.h)
+- **Complete Network Task Example:** [`code/part7-workshops/rtos_device/task_network.c`](https://github.com/raynhardt-van-zyl/Embedded-C-Architecture-Course/blob/main/code/part7-workshops/rtos_device/task_network.c)
