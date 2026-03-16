@@ -115,12 +115,12 @@ target_include_directories(bsp_stm32 PRIVATE
 
 ```mermaid
 graph TD
-    subgraph Host PC Build (Unit Tests)
+    subgraph HOST_BUILD["Host PC Build (Unit Tests)"]
         TESTS[test_pid.c] -->|Includes| APP_H[app/include/pid.h]
         TESTS -->|Compiles| APP_C[app/src/pid.c]
     end
 
-    subgraph Embedded Target Build (Cross-Compiler)
+    subgraph TARGET_BUILD["Embedded Target Build (Cross-Compiler)"]
         APP_C2[app/src/motor.c] -->|Includes| APP_H2[app/include/motor.h]
         APP_C2 -->|Includes| HAL_H[hal/include/hal_pwm.h]
         
