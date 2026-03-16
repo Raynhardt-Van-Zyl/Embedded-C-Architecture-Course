@@ -23,13 +23,13 @@ Furthermore, architecture extends to the linker script. Where data lives is an a
 
 ```mermaid
 graph TD
-    subgraph Execution Contexts
+    subgraph EXEC_CTX["Execution Contexts"]
         ISR[Interrupt Service Routines]
         RTOS[RTOS Tasks]
         BG[Background / Idle Loop]
     end
 
-    subgraph Memory Architecture
+    subgraph MEM_ARCH["Memory Architecture"]
         TCM[Tightly Coupled Memory - 0-wait state]
         SRAM_C[Cached SRAM - General Purpose]
         SRAM_NC[Non-Cached SRAM - DMA Buffers]
@@ -41,7 +41,7 @@ graph TD
     ISR -->|Writes to via DMA| SRAM_NC
     RTOS -->|Reads processed data from| SRAM_C
 
-    subgraph Dependency Flow
+    subgraph DEP_FLOW["Dependency Flow"]
         APP[Core Application Logic]
         SVC[Middleware / Services]
         HAL[Hardware Abstraction Layer]

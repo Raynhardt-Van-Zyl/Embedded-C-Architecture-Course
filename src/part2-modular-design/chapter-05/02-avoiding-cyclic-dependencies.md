@@ -56,7 +56,7 @@ A link-time cycle is far more insidious. It occurs when `Module_A.c` directly ca
 
 ```mermaid
 graph LR
-    subgraph Toxic Link-Time Cycle
+    subgraph SG_1["Toxic Link-Time Cycle"]
         A[Network Stack] -->|Calls: UART_Transmit()| B[UART Driver]
         B -->|Calls: Network_RxISR_Handler()| A
     end
@@ -121,7 +121,7 @@ void BSP_Init(void) {
 
 ```mermaid
 graph TD
-    subgraph Directed Acyclic Graph (DAG)
+    subgraph SG_2["Directed Acyclic Graph (DAG)"]
         BSP[BSP_Init] -->|Registers Callback| UART[UART Driver]
         BSP -->|Initializes| NET[Network Stack]
         NET -->|Calls Transmit| UART

@@ -35,12 +35,12 @@ The standard architectural approach is to isolate the protocol stack behind an *
 
 ```mermaid
 graph LR
-    subgraph Protocol Domain
+    subgraph SG_1["Protocol Domain"]
         BLE[Third Party BLE Stack]
         ADP[BLE Adapter Layer]
     end
     
-    subgraph Application Domain
+    subgraph SG_2["Application Domain"]
         EQ[(Application Event Queue)]
         APP[Motor Control App Task]
     end

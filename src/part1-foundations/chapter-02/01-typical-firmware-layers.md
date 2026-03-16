@@ -12,24 +12,24 @@ When designing a codebase to survive 20 years of changing requirements and silic
 
 ```mermaid
 graph TD
-    subgraph Layer 3: Application (Hardware Agnostic)
+    subgraph SG_1["Layer 3: Application (Hardware Agnostic)"]
         APP[Core Business Logic & State Machines]
         MATH[Math Algorithms / DSP / Filters]
     end
 
-    subgraph Layer 2: Middleware & Services
+    subgraph SG_2["Layer 2: Middleware & Services"]
         OSAL[OS Abstraction Layer]
         FS[File System / NVM Wear Leveling]
         COMMS[Network Stacks / MQTT]
         EXT_DRV[External Device Drivers e.g. IMU]
     end
 
-    subgraph Layer 1: Hardware Abstraction Layer (HAL)
+    subgraph SG_3["Layer 1: Hardware Abstraction Layer (HAL)"]
         HAL_API[HAL Interfaces .h - The Firewall]
         HAL_IMPL[MCU-Agnostic HAL Logic .c]
     end
 
-    subgraph Layer 0: Hardware & BSP (The Silicon Reality)
+    subgraph SG_4["Layer 0: Hardware & BSP (The Silicon Reality)"]
         BSP[Board Support Package]
         VENDOR[Untouched Vendor SDK / HAL]
         MCU[Microcontroller Registers]

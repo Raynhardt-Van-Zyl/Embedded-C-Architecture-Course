@@ -14,8 +14,8 @@ In our company standard, an **Architectural HAL** is a layer of software *you* w
 ### Complete Example: Architectural UART HAL
 
 See the complete working example in:
-- [`code/part2-modular-design/hal_example/hal_uart.h`](../../../code/part2-modular-design/hal_example/hal_uart.h) - Full HAL header
-- [`code/part2-modular-design/hal_example/hal_uart.c`](../../../code/part2-modular-design/hal_example/hal_uart.c) - Vendor-independent implementation
+- [`code/part2-modular-design/hal_example/hal_uart.h`](https://github.com/raynhardt-van-zyl/Embedded-C-Architecture-Course/blob/main/code/part2-modular-design/hal_example/hal_uart.h) - Full HAL header
+- [`code/part2-modular-design/hal_example/hal_uart.c`](https://github.com/raynhardt-van-zyl/Embedded-C-Architecture-Course/blob/main/code/part2-modular-design/hal_example/hal_uart.c) - Vendor-independent implementation
 
 #### The Header File Pattern
 
@@ -136,17 +136,17 @@ HAL_UART_t* Hal_Uart_Init(uint8_t uart_id, const HalUartConfig_t* config) {
 
 ```mermaid
 graph TD
-    subgraph "Application Layer"
+    subgraph SG_1["Application Layer"]
         APP[Application Logic]
     end
     
-    subgraph "Architectural HAL (YOUR CODE)"
+    subgraph SG_2["Architectural HAL (YOUR CODE)"]
         API[hal_uart.h - Pure C Interface]
         IMPL[hal_uart.c - Vendor Wrapper]
         MOCK[hal_uart_mock.c - Test Double]
     end
     
-    subgraph "Vendor HALs (NOT YOUR CODE)"
+    subgraph SG_3["Vendor HALs (NOT YOUR CODE)"]
         ST[STM32 HAL]
         NXP[NXP MCUXpresso]
         NRF[Nordic nrfx]
@@ -164,8 +164,8 @@ graph TD
 Because our `hal_uart.h` is pure C, we can easily create a third `.c` file: `hal_uart_mock.c`.
 
 See the complete mock implementation:
-- [`code/part5-testability/mocking/mock_hal.h`](../../../code/part5-testability/mocking/mock_hal.h)
-- [`code/part5-testability/mocking/mock_hal.c`](../../../code/part5-testability/mocking/mock_hal.c)
+- [`code/part5-testability/mocking/mock_hal.h`](https://github.com/raynhardt-van-zyl/Embedded-C-Architecture-Course/blob/main/code/part5-testability/mocking/mock_hal.h)
+- [`code/part5-testability/mocking/mock_hal.c`](https://github.com/raynhardt-van-zyl/Embedded-C-Architecture-Course/blob/main/code/part5-testability/mocking/mock_hal.c)
 
 When compiling for the target hardware, our build system (CMake/Make) links `hal_uart.c`. When compiling on our development PC for unit tests, the build system links `hal_uart_mock.c`.
 
@@ -174,8 +174,8 @@ The mock implementation simply records what was transmitted into a standard C ar
 ## Additional HAL Examples
 
 See these complete working HAL implementations:
-- [`code/part2-modular-design/hal_example/hal_spi.h`](../../../code/part2-modular-design/hal_example/hal_spi.h) - SPI HAL header
-- [`code/part2-modular-design/hal_example/hal_spi.c`](../../../code/part2-modular-design/hal_example/hal_spi.c) - SPI HAL implementation
+- [`code/part2-modular-design/hal_example/hal_i2c.h`](https://github.com/raynhardt-van-zyl/Embedded-C-Architecture-Course/blob/main/code/part2-modular-design/hal_example/hal_i2c.h) - I2C HAL header
+- [`code/part2-modular-design/hal_example/hal_i2c.c`](https://github.com/raynhardt-van-zyl/Embedded-C-Architecture-Course/blob/main/code/part2-modular-design/hal_example/hal_i2c.c) - I2C HAL implementation
 
 ## Company Standard Rules for the HAL
 

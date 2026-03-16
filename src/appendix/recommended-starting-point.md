@@ -52,19 +52,19 @@ When a legacy module becomes too brittle or requires significant new functionali
 
 ```mermaid
 graph TD
-    subgraph Legacy System
+    subgraph SG_1["Legacy System"]
         A[App Logic] --> B(Monolithic Driver)
         B -.->|Global State| C[Hardware]
     end
 
-    subgraph Transition Phase
+    subgraph SG_2["Transition Phase"]
         A2[New App Logic] --> D(New Compliant HAL)
         D --> E(New Clean Driver)
         A --> B
         E -.-> C
     end
     
-    subgraph Final State
+    subgraph SG_3["Final State"]
         A2 --> D
         D --> E
         E -.-> C
