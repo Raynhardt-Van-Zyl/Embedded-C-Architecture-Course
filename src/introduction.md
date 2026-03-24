@@ -2,22 +2,22 @@
 
 ## Purpose
 
-This curriculum is designed to teach **embedded C architecture and codebase standardization** in a practical sequence. The goal is not merely to write working firmware, but to understand how to structure, scale, review, and govern an embedded C codebase so that multiple engineers can work in it safely and consistently.
+This curriculum teaches embedded C architecture in a practical senior-engineering sequence. The goal is not merely to write working firmware, but to understand how to structure, scale, review, validate, and ship an embedded C codebase so that multiple engineers can work in it safely and consistently over the lifetime of a product family.
 
-The curriculum is arranged so that each chapter can be taught independently, while still building toward a complete standardization framework for a professional firmware codebase.
+The curriculum is arranged so that each chapter can be taught independently while still building toward a complete standardization and delivery model for professional firmware.
 
 ## Who This Curriculum Is For
 
 - Embedded software engineers moving from individual contributor roles to team lead or architect positions
 - Engineering managers responsible for code quality and team productivity
 - Teams establishing or improving their embedded development standards
-- Anyone seeking to understand how professional embedded codebases are structured and maintained
+- Anyone seeking to understand how professional embedded codebases are structured, validated, and maintained
 
 ## How to Use This Book
 
 Each chapter builds on concepts from previous chapters, but can also be read independently. The suggested teaching order in the appendix provides a recommended path through the material.
 
-Code examples are provided in the `code/` directory, organized by part and chapter. These examples demonstrate the concepts discussed and can serve as starting templates for your own projects.
+Code examples are provided in the `code/` and `hardware/` directories, organized to support both architectural discussion and concrete target-oriented exercises.
 
 ## Part Overview
 
@@ -39,8 +39,11 @@ Focuses on designing for testability and using static analysis tools.
 ### Part VI — Building the Standardization Framework
 Provides practical guidance on creating and rolling out organizational standards.
 
-### Part VII — Applied Architecture Workshops
-Offers hands-on examples and guidance for creating your own framework.
+### Part VII — Capstone Workshops
+Offers architecture case studies and a capstone framework exercise that applies the previous parts.
+
+### Part VIII — System Boundaries and Delivery
+Covers startup flow, linker boundaries, target debug, HIL validation, and production firmware lifecycle concerns that sit between clean architecture and a shippable embedded product.
 
 ---
 

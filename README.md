@@ -1,6 +1,6 @@
 # Embedded C Codebase Architecture Course
 
-An mdbook project for teaching embedded C architecture and codebase standardization.
+An `mdBook` project for teaching embedded C architecture, codebase standardization, and the practical system-boundary work that sits between clean code and shippable firmware.
 
 ## Building the Book
 
@@ -16,7 +16,7 @@ mdbook serve --open
 
 ## Curriculum Overview
 
-This curriculum teaches **embedded C architecture and codebase standardization** in a practical sequence. The goal is to understand how to structure, scale, review, and govern an embedded C codebase so that multiple engineers can work in it safely and consistently.
+This curriculum teaches embedded C architecture in a senior-engineer sequence. The goal is to help teams structure, scale, review, validate, and ship embedded firmware safely across multiple products and hardware revisions.
 
 ### Part I — Foundations of Embedded Codebase Design
 - Chapter 1 — What Firmware Architecture Actually Is
@@ -48,17 +48,26 @@ This curriculum teaches **embedded C architecture and codebase standardization**
 - Chapter 17 — Creating the Standard Package
 - Chapter 18 — Rolling Out the Framework
 
-### Part VII — Applied Architecture Workshops
+### Part VII — Capstone Workshops
 - Chapter 19 — Example Architecture Patterns
-- Chapter 20 — Drafting Your Own Standardization Framework
+- Chapter 20 — Capstone: Drafting and Trialing a Standardization Framework
+
+### Part VIII — System Boundaries and Delivery
+- Chapter 21 — Startup, Linker, and System Boundaries
+- Chapter 22 — Target Debug, Integration, and HIL
+- Chapter 23 — Production Firmware Lifecycle
 
 ## Maintenance Audit Tool
 
-Run the structural course audit before publishing updates:
+Run the course audit before publishing updates:
 
 ```bash
 python tools/course_audit.py
 ```
+
+## Companion Material
+
+The repository still includes optional companion material such as the LLM guidance, but it is no longer part of the main book flow.
 
 ## License
 

@@ -7,11 +7,12 @@ Welcome to the Appendix of the Embedded C Codebase Architecture course. This sec
 1. [Suggested Teaching Order](./suggested-teaching-order.md)
    Provides a structured curriculum for onboarding new engineers and upskilling existing teams. It breaks down the architecture course into digestible, logical phases.
 
-2. [How to Use This Standard with LLMs](./how-to-use-with-llm.md)
-   Explores how to encode these architectural guidelines into system prompts and context for Large Language Models (LLMs) to accelerate compliant code generation.
-
-3. [Recommended Starting Point](./recommended-starting-point.md)
+2. [Recommended Starting Point](./recommended-starting-point.md)
    Offers practical advice on how to implement these standards in both greenfield (new) and brownfield (legacy) projects, minimizing disruption while maximizing code quality improvements.
+
+## Companion Material
+
+The repository still includes optional companion documents such as `how-to-use-with-llm.md`, but they are no longer part of the main book flow. This keeps the curriculum focused on durable embedded engineering practice while still preserving useful supplemental guidance.
 
 ## Philosophy of Adoption
 

@@ -16,6 +16,10 @@ def warn(msg: str) -> None:
     print(f"WARN: {msg}")
 
 
+def iter_markdown_files() -> list[Path]:
+    return [p for p in (ROOT / "src").rglob("*.md")] + [ROOT / "README.md"]
+
+
 def check_placeholders() -> int:
     errors = 0
     targets = [ROOT / "book.toml", ROOT / "README.md", ROOT / "src"]
@@ -26,6 +30,26 @@ def check_placeholders() -> int:
             text = f.read_text(encoding="utf-8")
             if rx.search(text):
                 fail(f"Placeholder text found in {f.relative_to(ROOT)}")
+                errors += 1
+    return errors
+
+
+def check_markdown_relative_links() -> int:
+    errors = 0
+    rx = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
+    for md in iter_markdown_files():
+        text = md.read_text(encoding="utf-8")
+        for target in rx.findall(text):
+            if target.startswith(("http://", "https://", "mailto:", "#")):
+                continue
+            rel = target.split("#", 1)[0]
+            if not rel:
+                continue
+            resolved = (md.parent / rel).resolve()
+            if not resolved.exists():
+                fail(
+                    f"Broken relative markdown link in {md.relative_to(ROOT)} -> {target}"
+                )
                 errors += 1
     return errors
 
@@ -106,6 +130,7 @@ def main() -> int:
     total_errors += check_chapter_index_titles(canon)
     total_errors += check_chapter_template_sections()
     total_errors += check_hardware_readme_references()
+    total_errors += check_markdown_relative_links()
 
     if total_errors == 0:
         print("PASS: all audit checks passed")

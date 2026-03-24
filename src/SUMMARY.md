@@ -137,7 +137,7 @@
 
 ---
 
-# Part VII — Applied Architecture Workshops
+# Part VII — Capstone Workshops
 
 - [Example Architecture Patterns](./part7-workshops/chapter-19/index.md)
   - [Small bare-metal sensor node](./part7-workshops/chapter-19/01-bare-metal-sensor-node.md)
@@ -145,7 +145,7 @@
   - [Driver stack with HAL and BSP separation](./part7-workshops/chapter-19/03-driver-stack-hal-bsp.md)
   - [Protocol stack organization](./part7-workshops/chapter-19/04-protocol-stack-organization.md)
 
-- [Drafting Your Own Standardization Framework](./part7-workshops/chapter-20/index.md)
+- [Capstone: Drafting and Trialing a Standardization Framework](./part7-workshops/chapter-20/index.md)
   - [Assessing your current codebase](./part7-workshops/chapter-20/01-assessing-current-codebase.md)
   - [Writing version 1 of the framework](./part7-workshops/chapter-20/02-writing-framework-v1.md)
   - [Trialing the framework on a real module](./part7-workshops/chapter-20/03-trialing-framework.md)
@@ -153,8 +153,29 @@
 
 ---
 
+# Part VIII — System Boundaries and Delivery
+
+- [Startup, Linker, and System Boundaries](./part8-system-boundaries/chapter-21/index.md)
+  - [Reset flow and startup code](./part8-system-boundaries/chapter-21/01-reset-and-startup.md)
+  - [Linker scripts and memory maps](./part8-system-boundaries/chapter-21/02-linker-scripts-and-memory-map.md)
+  - [Bootloader and ABI boundaries](./part8-system-boundaries/chapter-21/03-bootloader-and-abi-boundaries.md)
+  - [Map files and post-mortem analysis](./part8-system-boundaries/chapter-21/04-map-files-and-postmortem-analysis.md)
+
+- [Target Debug, Integration, and HIL](./part9-validation-debug/chapter-22/index.md)
+  - [Target debug workflow](./part9-validation-debug/chapter-22/01-target-debug-workflow.md)
+  - [Integration and hardware-in-the-loop testing](./part9-validation-debug/chapter-22/02-integration-and-hil.md)
+  - [Fault capture and triage](./part9-validation-debug/chapter-22/03-fault-capture-and-triage.md)
+  - [Release gates for real firmware](./part9-validation-debug/chapter-22/04-release-gates.md)
+
+- [Production Firmware Lifecycle](./part9-validation-debug/chapter-23/index.md)
+  - [Non-volatile storage strategy](./part9-validation-debug/chapter-23/01-nonvolatile-storage-strategy.md)
+  - [Watchdogs and recovery policy](./part9-validation-debug/chapter-23/02-watchdogs-and-recovery.md)
+  - [Firmware update and rollback strategy](./part9-validation-debug/chapter-23/03-firmware-update-and-rollback.md)
+  - [Security basics for fielded devices](./part9-validation-debug/chapter-23/04-security-basics.md)
+
+---
+
 # Appendix
 
 - [Suggested Teaching Order](./appendix/suggested-teaching-order.md)
-- [How to Use This Curriculum With LLMs](./appendix/how-to-use-with-llm.md)
 - [Recommended Starting Point](./appendix/recommended-starting-point.md)

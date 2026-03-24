@@ -12,7 +12,7 @@
 /*                             PRIVATE DATA                                    */
 /*============================================================================*/
 
-volatile uint32_t g_criticalNestingLevel = 0;
+volatile uint32_t g_criticalNestingDepth = 0;
 volatile uint32_t g_savedPrimask = 0;
 
 /*============================================================================*/
@@ -20,7 +20,7 @@ volatile uint32_t g_savedPrimask = 0;
 /*============================================================================*/
 
 void ISR_Init(void) {
-    g_criticalNestingLevel = 0;
+    g_criticalNestingDepth = 0;
     g_savedPrimask = 0;
 }
 
